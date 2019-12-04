@@ -9,17 +9,17 @@
  *  Source: https://github.com/leonhards/jquery-simple-skillbar
  */
 
-(function ( $ ) {
+(function ($) {
 
     "use strict";
 
     var sb = {};
 
-    sb.o = function() {
+    sb.o = function () {
         this.o = null;
         this.$ = null;
 
-        this.run = function() {
+        this.run = function () {
             this.o = $.extend(
                 {
                     width: this.$.data('width') || 80,
@@ -31,22 +31,22 @@
 
             this.class(this.$);
             this.intv(this.$);
-          
+
             return this;
         };
     };
 
-    sb.cb = function() {
+    sb.cb = function () {
         sb.o.call(this);
 
-        this.class = function(i) {
+        this.class = function (i) {
             i.addClass("sb_progress");
-            i.html("<div class='sb_bar'><div class='sb_label'>"+i.text()+"</div></div>");
+            i.html("<div class='sb_bar'><div class='sb_label'>" + i.text() + "</div></div>");
             i.css({
                 position: 'relative',
                 width: '100%',
                 backgroundColor: '#dddddd',
-                height: this.o.height+'px'
+                height: this.o.height + 'px'
             });
             i.find('.sb_bar').css({
                 position: 'absolute',
@@ -56,36 +56,36 @@
             });
             i.find('.sb_label').css({
                 paddingLeft: '5px',
-                lineHeight: this.o.height+'px',
+                lineHeight: this.o.height + 'px',
                 color: this.o.textColor
             });
         };
 
-        this.intv = function(i) {
+        this.intv = function (i) {
             var s = this;
             var e = i.find('.sb_bar');
             var w = 1;
-            var t = setInterval( function() { itv(); }, 10 );            
+            var t = setInterval(function () { itv(); }, 10);
 
-            var itv = function() {
-                if ( w >= s.o.width ) {
+            var itv = function () {
+                if (w >= s.o.width) {
                     clearInterval(t);
                 } else {
                     w++;
-                    e.css('width', w+'%');
+                    e.css('width', w + '%');
                 }
             };
         };
     };
 
-    $.fn.simpleSkillbar = function(o) {
+    $.fn.simpleSkillbar = function (o) {
 
-        return this.each(function() {
+        return this.each(function () {
             var d = new sb.cb();
             d.o = o;
             d.$ = $(this);
             d.run();
         });
     };
- 
-}( jQuery ));
+
+}(jQuery));

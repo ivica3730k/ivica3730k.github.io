@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
     "use strict";
 
 
@@ -12,7 +12,7 @@ $(document).ready(function() {
     };
     if (document.getElementById("service-select")) {
         $('select').niceSelect();
-    };    
+    };
 
     //------- Lightbox  js --------//  
 
@@ -33,11 +33,11 @@ $(document).ready(function() {
 
     //------- Counter  js --------//  
 
-     if(document.getElementById("facts-area")){
-      $('.counter').counterUp({
-          delay: 10,
-          time: 1000
-      });
+    if (document.getElementById("facts-area")) {
+        $('.counter').counterUp({
+            delay: 10,
+            time: 1000
+        });
     }
 
     //------- Skill  js --------//  
@@ -46,52 +46,52 @@ $(document).ready(function() {
 
     //------- Filter  js --------//  
 
-      $('.filters ul li').click(function(){
+    $('.filters ul li').click(function () {
         $('.filters ul li').removeClass('active');
         $(this).addClass('active');
-        
+
         var data = $(this).attr('data-filter');
         $grid.isotope({
-          filter: data
+            filter: data
         })
-      });
+    });
 
 
-      if(document.getElementById("portfolio")){
-            var $grid = $(".grid").isotope({
-              itemSelector: ".all",
-              percentPosition: true,
-              masonry: {
+    if (document.getElementById("portfolio")) {
+        var $grid = $(".grid").isotope({
+            itemSelector: ".all",
+            percentPosition: true,
+            masonry: {
                 columnWidth: ".all"
-              }
-            })
-      };
+            }
+        })
+    };
 
 
     //------- Timeline js --------//  
 
 
-    $('.content').each( function(i){
-      
-      var bottom_of_object= $(this).offset().top + $(this).outerHeight();
-      var bottom_of_window = $(window).height();
-      
-      if( bottom_of_object > bottom_of_window){
-        $(this).addClass('hidden');
-      }
+    $('.content').each(function (i) {
+
+        var bottom_of_object = $(this).offset().top + $(this).outerHeight();
+        var bottom_of_window = $(window).height();
+
+        if (bottom_of_object > bottom_of_window) {
+            $(this).addClass('hidden');
+        }
     });
 
 
-    $(window).scroll( function(){
+    $(window).scroll(function () {
         /* Check the location of each element hidden */
-        $('.hidden').each( function(i){
-          
+        $('.hidden').each(function (i) {
+
             var bottom_of_object = $(this).offset().top + $(this).outerHeight();
             var bottom_of_window = $(window).scrollTop() + $(window).height();
-          
+
             /* If the object is completely visible in the window, fadeIn it */
-            if( bottom_of_window > bottom_of_object ){
-              $(this).animate({'opacity':'1'},700);
+            if (bottom_of_window > bottom_of_object) {
+                $(this).animate({ 'opacity': '1' }, 700);
             }
         });
     });
@@ -110,14 +110,14 @@ $(document).ready(function() {
 
     var allPanels = $(".accordion > dd").hide();
     allPanels.first().slideDown("easeOutExpo");
-    $(".accordion").each(function() {
+    $(".accordion").each(function () {
         $(this).find("dt > a").first().addClass("active").parent().next().css({
             display: "block"
         });
     });
 
 
-     $(document).on('click', '.accordion > dt > a', function(e) {
+    $(document).on('click', '.accordion > dt > a', function (e) {
 
         var current = $(this).parent().next("dd");
         $(this).parents(".accordion").find("dt > a").removeClass("active");
@@ -132,46 +132,46 @@ $(document).ready(function() {
     //------- Tabs Js --------//  
     if (document.getElementById("horizontalTab")) {
 
-    $('#horizontalTab').jqTabs({
-        direction: 'horizontal',
-        duration: 200
-    });
-    
-    };  
+        $('#horizontalTab').jqTabs({
+            direction: 'horizontal',
+            duration: 200
+        });
+
+    };
 
 
     //------- Owl Carusel  js --------//  
 
     $('.active-review-carusel').owlCarousel({
-        items:1,
-        loop:true,
-        autoplay:true,
-        autoplayHoverPause: true,        
-        margin:30,
+        items: 1,
+        loop: true,
+        autoplay: true,
+        autoplayHoverPause: true,
+        margin: 30,
         dots: true
     });
 
-     $('.active-testimonial').owlCarousel({
-            items: 2,
-            loop: true,
-            margin: 30,
-            autoplayHoverPause: true,
-            dots: true,
-            autoplay: true,
-            nav: true,
-            navText: ["<span class='lnr lnr-arrow-up'></span>", "<span class='lnr lnr-arrow-down'></span>"],
-            responsive: {
-                0: {
-                    items: 1
-                },
-                480: {
-                    items: 1,
-                },
-                768: {
-                    items: 2,
-                }
+    $('.active-testimonial').owlCarousel({
+        items: 2,
+        loop: true,
+        margin: 30,
+        autoplayHoverPause: true,
+        dots: true,
+        autoplay: true,
+        nav: true,
+        navText: ["<span class='lnr lnr-arrow-up'></span>", "<span class='lnr lnr-arrow-down'></span>"],
+        responsive: {
+            0: {
+                items: 1
+            },
+            480: {
+                items: 1,
+            },
+            768: {
+                items: 2,
             }
-        });
+        }
+    });
 
 
 
@@ -186,7 +186,7 @@ $(document).ready(function() {
             },
             455: {
                 items: 2
-            },            
+            },
             768: {
                 items: 3,
             },
@@ -197,7 +197,7 @@ $(document).ready(function() {
                 items: 5,
             }
         }
-    }); 
+    });
 
     //------- Mobile Nav  js --------//  
 
@@ -214,19 +214,19 @@ $(document).ready(function() {
         $('body').append('<div id="mobile-body-overly"></div>');
         $('#mobile-nav').find('.menu-has-children').prepend('<i class="lnr lnr-chevron-down"></i>');
 
-        $(document).on('click', '.menu-has-children i', function(e) {
+        $(document).on('click', '.menu-has-children i', function (e) {
             $(this).next().toggleClass('menu-item-active');
             $(this).nextAll('ul').eq(0).slideToggle();
             $(this).toggleClass("lnr-chevron-up lnr-chevron-down");
         });
 
-        $(document).on('click', '#mobile-nav-toggle', function(e) {
+        $(document).on('click', '#mobile-nav-toggle', function (e) {
             $('body').toggleClass('mobile-nav-active');
             $('#mobile-nav-toggle i').toggleClass('lnr-cross lnr-menu');
             $('#mobile-body-overly').toggle();
         });
 
-            $(document).on('click', function(e) {
+        $(document).on('click', function (e) {
             var container = $("#mobile-nav, #mobile-nav-toggle");
             if (!container.is(e.target) && container.has(e.target).length === 0) {
                 if ($('body').hasClass('mobile-nav-active')) {
@@ -242,7 +242,7 @@ $(document).ready(function() {
 
     //------- Smooth Scroll  js --------//  
 
-    $('.nav-menu a, #mobile-nav a, .scrollto').on('click', function() {
+    $('.nav-menu a, #mobile-nav a, .scrollto').on('click', function () {
         if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
             var target = $(this.hash);
             if (target.length) {
@@ -275,13 +275,13 @@ $(document).ready(function() {
         }
     });
 
-    $(document).ready(function() {
+    $(document).ready(function () {
 
         $('html, body').hide();
 
         if (window.location.hash) {
 
-            setTimeout(function() {
+            setTimeout(function () {
 
                 $('html, body').scrollTop(0).show();
 
@@ -302,7 +302,7 @@ $(document).ready(function() {
     });
 
 
-    jQuery(document).ready(function($) {
+    jQuery(document).ready(function ($) {
         // Get current path and find target link
         var path = window.location.pathname.split("/").pop();
 
@@ -316,7 +316,7 @@ $(document).ready(function() {
         target.addClass('menu-active');
     });
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         if ($('.menu-has-children ul>li a').hasClass('menu-active')) {
             $('.menu-active').closest("ul").parentsUntil("a").addClass('parent-active');
         }
@@ -327,7 +327,7 @@ $(document).ready(function() {
 
     //------- Header Scroll Class  js --------//  
 
-    $(window).scroll(function() {
+    $(window).scroll(function () {
         if ($(this).scrollTop() > 100) {
             $('#header').addClass('header-scrolled');
         } else {
@@ -473,7 +473,7 @@ $(document).ready(function() {
 
     //------- Mailchimp js --------//  
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('#mc_embed_signup').find('form').ajaxChimp();
     });
 
