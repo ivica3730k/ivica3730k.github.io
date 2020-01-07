@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<CONTENT>
+   <?xml-multiple ?>
+   <FEATURED>
+     <ITEM>
+         <ID>6</ID>
+         <NAME>Sony Playstation 4</NAME>
+         <BRAND>SONY</BRAND>
+         <DESC>
+            <SHORT></SHORT>
+            <LONG>Sony Playstation 4</LONG>
+            <TAGS>
+               <TAG>DualShock 4 Controler</TAG>
+               <TAG>WIFI and LAN</TAG>
+               <TAG>Plug And Play</TAG>
+            </TAGS>
+         </DESC>
+         <IMAGES>
+            <IMG>static/img/products/ps4/ps4.jpg</IMG>
+            <IMG>static/img/products/ps4/ps4-1.jpg</IMG>
+         </IMAGES>
+         <PRICE>233 £</PRICE>
+      </ITEM>
+    <ITEM>
+         <ID>1</ID>
+         <NAME>Acer Aspire 3</NAME>
+         <BRAND>Acer</BRAND>
+         <DESC>
+            <SHORT>15.6" FHD, AMD Ryzen 3 3200U up to 3.5GHz, 8GB DDR4, 256GB NVMe SSD, AMD Radeon Vega 3, no ODD</SHORT>
+            <LONG>
+               Intel Core i3-7020U (3M Cache,2.30 GHz),4GB DDR4,256GB SSD,15.6 FHD 1920x1080 ComfyView LED,Intel HD Graphics 620,no odd,USB 3.0,HDMI,webcam,WiFi, BT 4.0,3-cell (7h),2.1 kg,Endless OS (Linux)
+            </LONG>
+            <TAGS>
+               <TAG>Intel Celeron N4000</TAG>
+               <TAG>4GB DDR4</TAG>
+               <TAG>64GB eMMC</TAG>
+               <TAG>Intel UHD Graphics 600</TAG>
+            </TAGS>
+         </DESC>
+         <IMAGES>
+            <IMG>static/img/products/acer3/acer3.png</IMG>
+            <IMG>static/img/products/acer3/acer3-1.png</IMG>
+            <IMG>static/img/products/acer3/acer3-2.png</IMG>
+            <IMG>static/img/products/acer3/acer3-3.png</IMG>
+         </IMAGES>
+         <WARRANTY>2 years, 1 year on battery</WARRANTY>
+         <PRICE>320 £</PRICE>
+      </ITEM>
+       <ITEM>
+         <ID>4</ID>
+         <NAME>INSTANT GAMER 1</NAME>
+         <BRAND>UNI BRAND</BRAND>
+         <DESC>
+            <SHORT>INSTANT Gamer HYDRA, AMD Ryzen 5 3400G up to 4.2GHz, 8GB DDR4, 256GB NVMe SSD, AMD RADEON RX560 4GB, no ODD</SHORT>
+            <LONG>PROCESSOR: AMD Ryzen 5 3400G up to 4.2GHz, AM4
+                CPU COOLING: AM4 CERTIFIED CPU FAN HEATSINK
+                Motherboard: AMD A320M, AM4
+                MEMORY: 8GB DDR4 2400MHz
+                GRAPHIC CARD: AMD RADEON RX560 4GB DDR5
+                SSD DISK: 256GB NVMe SSD
+                Optical drive: no ODD
+                SOUND: HIGH DEFINITION ON-BOARD 5.1 AUDIO
+                HOUSING: Sharkoon, gaming, black
+                POWER SUPPLY: 500W
+                Extra Fans: None
+                NETWORK CARD: Onboard Gigabit LAN Network
+                KEYBOARD: None
+                Mouse: None
+                SPEAKERS: None
+                LCD Monitor: None
+                Wireless 802.11B / G Network Card: No.
+                Bluetooth: No.
+                Flash Media Reader / Writer: No.
+                USB PORT: Built-in USB 2.0 Ports
+                FLOPPY: None
+                OS: Free DOS
+            </LONG>
+            <TAGS>
+               <TAG>AMD Ryzen 5 3400G</TAG>
+               <TAG>8GB DDR4</TAG>
+               <TAG>256GB NVMe SSD</TAG>
+               <TAG>AMD RADEON RX560 4GB</TAG>
+            </TAGS>
+         </DESC>
+         <IMAGES>
+            <IMG>static/img/products/prebuiltpc.png</IMG>
+         </IMAGES>
+         <WARRANTY>3 years</WARRANTY>
+         <PRICE>559.99 £</PRICE>
+      </ITEM>
+   </FEATURED>
+   <LAPTOPS>
+  
+      <ITEM>
+         <ID>2</ID>
+         <NAME>Notebook Asus X509UA</NAME>
+         <BRAND>Asus</BRAND>
+         <DESC>
+            <SHORT>Notebook Asus X509UA-WB311, 15.6" FHD, Intel Core i3 7020U 2.3GHz, 8GB DDR4, 512GB NVMe SSD, Intel HD graphics 620, no ODD, DOS</SHORT>
+            <TAGS>
+               <TAG>Intel Core i3</TAG>
+               <TAG>8GB DDR4</TAG>
+               <TAG>512GB NVMe SSD</TAG>
+               <TAG>1TB HDD</TAG>
+            </TAGS>
+         </DESC>
+         <IMAGES>
+            <IMG>static/img/products/asusx509/AsusX509.jpeg</IMG>
+            <IMG>static/img/products/asusx509/AsusX509-1.jpeg</IMG>
+            <IMG>static/img/products/asusx509/AsusX509-2.jpeg</IMG>
+            <IMG>static/img/products/asusx509/AsusX509-3.jpeg</IMG>
+         </IMAGES>
+         <WARRANTY>2 years, 1 year on battery</WARRANTY>
+         <PRICE>599 £</PRICE>
+      </ITEM>
+      <ITEM>
+         <ID>3</ID>
+         <NAME>HP 250 G7</NAME>
+         <BRAND>Hp</BRAND>
+         <DESC>
+            <SHORT>Notebook HP 250 G7, 6HL04EA, 15.6" FHD, Intel Celeron N4000 up to 2.60GHz, 4GB DDR4, 128GB SSD, Intel UHD Graphics 600, DVD, Win 10</SHORT>
+            <TAGS>
+               <TAG>Intel Celeron N4000</TAG>
+               <TAG>4GB DDR4</TAG>
+               <TAG>128GB SSD</TAG>
+               <TAG>Intel UHD Graphics 600</TAG>
+            </TAGS>
+         </DESC>
+         <IMAGES>
+            <IMG>static/img/products/hp250g7/hp250g7.png</IMG>
+            <IMG>static/img/products/hp250g7/hp250g7-1.png</IMG>
+            <IMG>static/img/products/hp250g7/hp250g7-2.png</IMG>
+            <IMG>static/img/products/hp250g7/hp250g7-3.png</IMG>
+         </IMAGES>
+         <WARRANTY>2 years, 1 year on battery</WARRANTY>
+         <PRICE>499.99 £</PRICE>
+      </ITEM>
+   </LAPTOPS>
+   <COMPUTERS>
+
+      <ITEM>
+         <ID>5</ID>
+         <NAME>INSTANT GAMER 2</NAME>
+         <BRAND>UNI BRAND</BRAND>
+         <DESC>
+            <SHORT>INSTANT amer Prime, Intel Core i5 9500 up to 4.40GHz, 8GB DDR4, 256GB NVMe SSD, NVIDIA GeForce GTX1650 4GB, no ODD</SHORT>
+            <LONG>
+            PROCESSOR: Intel i5-9500F up to 4.40GHz, Coffee Lake
+            CPU COOLING: Intel 1151 CERTIFIED CPU FAN HEATSINK
+            Motherboard: Intel® H310 Chipset
+            MEMORY: 8GB DDR4 2400MHz
+            GRAPHIC CARD: NVIDIA GeForce GTX1650 4GB GDDR5
+            SSD DISK: 256GB NVMe SSD
+            Optical drive: no ODD
+            SOUND: HIGH DEFINITION ON-BOARD 5.1 AUDIO
+            HOUSING: MS, Gaming black
+            POWER SUPPLY: 500W
+            Extra fans: 1x12cm
+            NETWORK CARD: Onboard Gigabit LAN Network
+            KEYBOARD: None
+            Mouse: None
+            SPEAKERS: None
+            LCD Monitor: None
+            Wireless 802.11B / G Network Card: No.
+            Bluetooth: No.
+            Flash Media Reader / Writer: No.
+            USB PORT: Built-in USB 2.0 Ports
+            USB 3.0: Yes
+            FLOPPY: None
+            HDMI: yes
+            DVI (digital output): yes
+            OS: Free DOS
+           </LONG>
+            <TAGS>
+               <TAG>Intel Core i5 9500F</TAG>
+               <TAG>8GB DDR4</TAG>
+               <TAG>256GB NVMe SSD</TAG>
+               <TAG>NVIDIA GTX1650 4GB</TAG>
+            </TAGS>
+         </DESC>
+         <IMAGES>
+            <IMG>static/img/products/prebuiltpc.png</IMG>
+         </IMAGES>
+         <WARRANTY>3 years</WARRANTY>
+         <PRICE>1159.99 £</PRICE>
+      </ITEM>
+   </COMPUTERS>
+   <CONSOLES>
+      <ITEM>
+         <ID>6</ID>
+         <NAME>Sony Playstation 4</NAME>
+         <BRAND>SONY</BRAND>
+         <DESC>
+            <SHORT></SHORT>
+            <LONG>Sony Playstation 4</LONG>
+            <TAGS>
+               <TAG>DualShock 4 Controler</TAG>
+               <TAG>WIFI and LAN</TAG>
+               <TAG>Plug And Play</TAG>
+            </TAGS>
+         </DESC>
+         <IMAGES>
+            <IMG>static/img/products/ps4/ps4.jpg</IMG>
+            <IMG>static/img/products/ps4/ps4-1.jpg</IMG>
+         </IMAGES>
+         <PRICE>233 £</PRICE>
+      </ITEM>
+   </CONSOLES>
+</CONTENT>

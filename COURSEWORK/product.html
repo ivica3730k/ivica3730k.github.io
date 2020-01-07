@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Products page</title>
+    <link rel="stylesheet" href="./css/product.css" />
+    <link rel="stylesheet" href="./css/products.css" />
+    <link rel="stylesheet" href="./css/linearicons.css" />
+    <link rel="stylesheet" href="./css/general.css" />
+    <link rel="stylesheet" href="./css/headerareas.css" />
+    <link rel="stylesheet" href="./css/collapsible.css" />
+    <link rel="stylesheet" href="./css/forms.css" />
+  </head>
+
+  <body id="body">
+    <div class="Frame">
+      <div class="TopHeader"></div>
+      <div class="Header">
+        <div class="HeaderItem LogoContainer">
+          <a href="./index.html"> <img src="/static/img/logo.png" alt=""/></a>
+        </div>
+        <div class="HeaderItem SearchContainer">
+          <input
+            type="text"
+            class="SearchOutline"
+            placeholder="Chose wisely!"
+          />
+          <button type="submit" class="SearchButton">
+            <i class="lnr lnr-magnifier"></i>
+          </button>
+        </div>
+        <div class="HeaderItem">
+          <div class="CartProfileRow">
+            <div class="CartProfileRowProfile" style="margin: auto;">
+              <button class="CollapsibleBtn" id="colaps-profile-btn">
+                <img src="static/img/svg/user.svg" alt="" />
+              </button>
+            </div>
+            <div class="CartProfileRowCart" style="margin: auto;">
+              <button class="CollapsibleBtn" id="colaps-cart-btn">
+                <img src="static/img/svg/cart.svg" alt="" />
+              </button>
+            </div>
+
+            <div class="HiddenContent" id="colaps-profile-content">
+              <div class="Box">
+                <div class="FormInputs">
+                  <input type="email" class="FormInput" />
+                  <input type="password" class="FormInput" />
+                </div>
+                <div class="FormSubmit">
+                  <button
+                    type="submit"
+                    style="  border: none; background-color: inherit;outline: none;"
+                  >
+                    <img src="./static/img/login.png" alt="" />
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="HiddenContent" id="colaps-cart-content">
+              Lorem ipsum dolor sit amet.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ProductContainer" id="filledElement">
+        <div class="ProductPictures">
+          <div class="SlideshowContainer">
+            <img
+              style="height: 320px; width: auto;"
+              id="slideshow"
+              alt=""
+              src="undefined"
+            />
+            <ol id="slideshowBullets"></ol>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.4.2/handlebars.js"></script>
+    <script src="./js/singleproduct.js"></script>
+    <script src="./js/slideShow.js"></script>
+    <script src="./js/contentFiller.js"></script>
+    <script src="./js/header.js"></script>
+    <script id="fillScript" type="text/x-handlebars-template">
+            <div class="ProductShortDescription">
+                <div class="ProductTitle">
+                    <h1>{{NAME}}</h1>
+                    <small>Brand: {{BRAND}}</small>
+                    <div class="ProductUnderline"></div>
+                    {{#each DESC.TAGS.TAG}}
+                    <li> <span class="lnr lnr-pointer-right"></span> {{this}}</li>
+                    {{/each}}
+                    <br>
+                    <span>Warranty:</span>
+                    <li> <span class="lnr lnr-cog"></span> {{WARRANTY}}</li>
+                </div>
+
+            </div>
+
+            <div class="ProductPayArea">
+                <h2>Product price: {{PRICE}}</h2>
+                <span>Quantity:  </span>
+                <input type="number" name="quantity" min="1" max="10" value="1">
+                <div class="ProductUnderline"></div>
+
+                <small>
+                  M&S Credit Card – For more of the things you love
+
+                  Leeds United Credit Card – Show your support
+
+                  Post Office Credit Card – The right card, every time
+
+                  Discover Credit Card – We treat you like you’d treat you</small>
+
+                  <div class="ProductUnderline"></div>
+
+                <div class="ProductButtonHolder">
+                  <div class="ProductButton">Add to cart</div>
+                  <div class="ProductButton">Save for later
+                  </div>
+                </div>
+                <br>
+            </div>
+
+            <div class="ProductLongDescription">
+                <h2>Product description</h2>
+                <p>{{DESC.LONG}}</p>
+            </div>
+
+            <div class="ProductSimilarArea" >
+              <h2>Other items in this category</h2>
+      <br>
+              <div class="ProductsInline" id="similar"></div>
+            </div>
+    </script>
+    <script id="fill-similar" type="text/x-handlebars-template">
+          {{#if ITEM}}
+
+          {{#each ITEM}}
+          <a href="./product.html?productId={{ID}}">
+
+          <div class="ProductsItem" style="height: fit-content;">
+              <div class="ProductsImage"><img src="{{IMAGES.IMG.[0]}}" alt=""></div>
+              <div class="ProductsHeadline">
+                  <h4>{{NAME}}</h4>
+              </div>
+
+              <!---->
+          </div>
+          </a>
+          {{/each}}
+
+      {{/if}}
+    </script>
+  </body>
+</html>
