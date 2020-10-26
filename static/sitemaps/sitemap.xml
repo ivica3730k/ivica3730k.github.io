@@ -1,25 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet type='text/xsl' href='sitemap.xsl'?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-  <url>
-    <loc>https://www.ivica.codes/about</loc>
-    <changefreq>Monthly</changefreq>
-    <priority>1</priority>
-    <lastmod>2019-12-04T14:37:46Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.ivica.codes/</loc>
-    <changefreq>Monthly</changefreq>
-    <priority>1</priority>
-    <lastmod>2019-12-04T14:37:46Z</lastmod>
-  </url>
-    <url>
-    <loc>https://www.ivica.codes/mywork</loc>
-    <changefreq>Monthly</changefreq>
-    <priority>1</priority>
-    <lastmod>2019-12-04T14:37:46Z</lastmod>
-  </url>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
+
+<url>
+  <loc>https://ivica-matic.com/</loc>
+  <lastmod>2020-10-25T01:35:06+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://ivica-matic.com/index.html</loc>
+  <lastmod>2020-10-25T01:35:06+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://ivica-matic.com/about.html</loc>
+  <lastmod>2020-10-25T01:35:06+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://ivica-matic.com/mywork.html</loc>
+  <lastmod>2020-10-25T01:35:06+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://ivica-matic.com/media/uploads/cv.pdf</loc>
+  <lastmod>2020-10-25T01:35:06+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://ivica-matic.com/about</loc>
+  <lastmod>2020-10-25T01:35:06+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+
+
 </urlset>
