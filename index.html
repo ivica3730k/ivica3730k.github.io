@@ -1,386 +1,580 @@
 <!DOCTYPE html>
-<html lang="zxx" class="no-js">
+<html>
+  <head>
+    <style>
+      /*! ADAPTED
+    Typeplate : Starter Kit
+    URL ........... http://typeplate.com
+    Version ....... 3.0.2
+    Github ........ https://github.com/typeplate/starter-kit
+    Authors ....... Dennis Gaebel (@gryghostvisuals) & Zachary Kain (@zakkain)
+    License ....... Creative Commmons Attribution 3.0
+    License URL ... https://github.com/typeplate/starter-kit/blob/master/license.txt
+    */
 
-<head>
-  <meta name="google-site-verification" content="U90Isn4CrTP3WbNEObKYBsed8BqhXhIBnMdZuN_bvbE" />
-  <!-- Mobile Specific Meta -->
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <!-- Favicon-->
-  <link rel="shortcut icon" href="./static/img/fav.png">
-  <!-- Author Meta -->
-  <meta name="author" content="colorlib">
-  <!-- Meta Description -->
-  <meta name="description" content="">
-  <!-- Meta Keyword -->
-  <meta name="keywords" content="">
-  <!-- meta character set -->
-  <meta charset="UTF-8">
-  <!-- Site Title -->
-  <title>Ivica Matic - Software Engineer</title>
-  <!--
-         CSS
-         ============================================= -->
-  <link rel="stylesheet" href="./static/css/linearicons.css">
-  <link rel="stylesheet" href="./static/css/font-awesome.min.css">
-  <link rel="stylesheet" href="./static/css/bootstrap.css">
-  <link rel="stylesheet" href="./static/css/magnific-popup.css">
-  <link rel="stylesheet" href="./static/css/nice-select.css">
-  <link rel="stylesheet" href="./static/css/animate.min.css">
-  <link rel="stylesheet" href="./static/css/owl.carousel.css">
-  <link rel="stylesheet" href="./static/css/main.css">
-  <link rel="stylesheet" href="./static/css/custom-css-override.css">
-</head>
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        text-rendering: optimizeLegibility;
+        line-height: 1;
+        margin-top: 0;
+        color: #222;
+      }
 
-<body>
-  <!--Header start-->
-  <header id="header">
-    <div class="container main-menu">
-      <div class="row align-items-center justify-content-between d-flex">
-        <div id="logo">
-          <a href="./index.html" style="color: inherit;">Ivica Matic</a>
-        </div>
-        <nav id="nav-menu-container">
-          <ul class="nav-menu">
-            <li><a href="./media/uploads/cv.pdf">My CV</a></li>
-            <li><a href="https://github.com/ivica3730k">Github</a></li>
-            <li><a href="https://www.linkedin.com/in/matic-ivica/">LinkedIn</a></li>
-            <li><a href="https://blog.ivica-matic.com">Blog - Project Ideas</a></li>
-          </ul>
-        </nav>
-        <!-- #nav-menu-container -->
-      </div>
+      blockquote + figcaption cite {
+        display: block;
+        font-size: inherit;
+        text-align: right;
+      }
+
+      body {
+        word-wrap: break-word;
+      }
+
+      pre code {
+        word-wrap: normal;
+      }
+
+      body {
+        -webkit-hyphens: auto;
+        -ms-hyphens: auto;
+        hyphens: auto;
+        color: #444;
+      }
+
+      h1 {
+        font-size: 2em;
+        /* 2*16 = 32 */
+      }
+
+      h2 {
+        font-size: 1.5em;
+        /* 1.5*16 = 24 */
+      }
+
+      h3 {
+        font-size: 1.17em;
+        /* 1.17*16 = 18.72 */
+      }
+
+      h4 {
+        font-size: 1em;
+        /* 1*16 = 16 */
+      }
+
+      h5 {
+        font-size: 0.83em;
+        /* 0.83*16 = 13.28 */
+      }
+
+      h6 {
+        font-size: 0.75em;
+        /* 0.75*16 = 12 */
+      }
+
+      h1 {
+        margin: 2.42424rem 0 1.454544rem;
+      }
+
+      h2 {
+        margin: 2.0202rem 0 1.21212rem;
+      }
+
+      h3 {
+        margin: 1.61616rem 0 1rem;
+      }
+
+      h4 {
+        margin: 1.21212rem 0 1;
+      }
+
+      h5 {
+        margin: 0.80808rem 0;
+      }
+
+      h6 {
+        margin: 0.70707rem 0;
+      }
+
+      p {
+        margin: auto auto 1.5rem;
+      }
+
+      small {
+        font-size: 65%;
+      }
+
+      input,
+      abbr,
+      acronym,
+      blockquote,
+      code,
+      kbd,
+      q,
+      samp,
+      var {
+        -webkit-hyphens: none;
+        -ms-hyphens: none;
+        hyphens: none;
+      }
+
+      pre {
+        white-space: pre;
+      }
+
+      pre code {
+        white-space: -moz-pre-wrap;
+        white-space: pre-wrap;
+      }
+
+      code {
+        white-space: pre;
+        font-family: SF Mono, Consolas, Dejavu Sans Mono, Menlo, monospace;
+      }
+
+      abbr {
+        -webkit-font-variant: small-caps;
+        -moz-font-variant: small-caps;
+        -ms-font-variant: small-caps;
+        font-variant: small-caps;
+        font-weight: 600;
+        text-transform: lowercase;
+        color: gray;
+      }
+
+      abbr[title]:hover {
+        cursor: help;
+      }
+
+      /* FROM http://purecss.io/layouts/side-menu/  adapted to remove pure classes*/
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+          "Segoe UI Symbol";
+        color: #444;
+      }
+
+      img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: auto;
+      }
+
+      code,
+      pre {
+        background-color: #f5f5f5;
+        color: #444;
+        border-radius: 2px;
+        text-shadow: 0px 1px 0px white;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+      }
+
+      pre code {
+        border: none;
+        box-shadow: none;
+      }
+
+      pre {
+        padding: 0.5em;
+      }
+
+      code {
+        display: inline-block;
+        padding: 0 0.5em;
+        line-height: 1.4;
+        font-size: 0.9em;
+      }
+
+      table {
+        border-spacing: 0;
+        margin-bottom: 1.5rem;
+      }
+
+      table th,
+      table td {
+        padding: 0.3em 0.7em;
+      }
+
+      table th {
+        background-color: #f4f4f4;
+        border-bottom: 2px solid #444;
+      }
+
+      table td {
+        border: 1px solid #f5f5f5;
+      }
+
+      /* Add transition to containers so they can push in and out. */
+
+      #layout,
+      #menu,
+      .menu-link {
+        -webkit-transition: all 0.2s ease-out;
+        -moz-transition: all 0.2s ease-out;
+        -ms-transition: all 0.2s ease-out;
+        -o-transition: all 0.2s ease-out;
+        transition: all 0.2s ease-out;
+      }
+
+      /* This is the parent `<div>` that contains the menu and the content area. */
+
+      #layout {
+        position: relative;
+        padding-left: 0;
+      }
+
+      #layout.active #menu {
+        left: 250px;
+        width: 250px;
+      }
+
+      #layout.active .menu-link {
+        left: 250px;
+      }
+
+      /* The content `<div>` is where all your content goes. */
+
+      .content {
+        margin: 0px auto;
+        padding: 0 0em;
+        max-width: 80ex;
+        line-height: 1.6em;
+      }
+
+      /*
+      The `#menu` `<div>` is the parent `<div>` that contains the menu that
+      appears on the left side of the page.
+      */
+
+      #menu {
+        margin-left: -250px;
+        /* "#menu" width */
+        width: 250px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        z-index: 1000;
+        /* so the menu or its navicon stays above all content */
+        background: #f4f4f4;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        font-size: 0.9em;
+      }
+
+      @media print {
+        #menu,
+        .menu-link {
+          display: none !important;
+        }
+      }
+
+      a,
+      a * {
+        text-decoration: none;
+        color: #2483cc;
+      }
+
+      a:visited {
+        text-decoration: none;
+        color: #2483cc;
+      }
+
+      /* All anchors inside the menu should be styled like this. */
+
+      #menu a {
+        display: block;
+        padding: 0.5em 0.5em;
+      }
+
+      #menu a:first-letter {
+        text-transform: capitalize;
+      }
+
+      #menu ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 1em 0.5em;
+      }
+
+      #menu ul ul {
+        margin-top: 0.5em;
+        margin-left: 0.5em;
+        border-left: 4px solid rgba(255, 255, 255, 0.5);
+      }
+
+      /* Change color of the anchor links on hover/focus. */
+
+      #menu li a:hover,
+      #menu li a:focus {
+        background: rgba(255, 255, 255, 0.4);
+      }
+
+      /* This styles the selected menu item `<li>`. */
+
+      #menu li a.active {
+        background: rgba(0, 0, 0, 0.05);
+      }
+
+      /* This styles a link within a selected menu item `<li>`. */
+
+      #menu li a.active {
+        color: #222;
+      }
+
+      /* This styles the menu heading. */
+
+      #menu li.heading {
+        font-size: 0.9em;
+        text-transform: uppercase;
+        color: #000;
+      }
+
+      #menu li.heading > * {
+        padding: 0.5em;
+        display: block;
+      }
+
+      #menu li.heading a {
+        color: #0c68af;
+      }
+
+      /* -- Dynamic Button For Responsive Menu -------------------------------------*/
+
+      /*
+      `.menu-link` represents the responsive menu toggle that shows/hides on
+      small screens.
+      */
+
+      .menu-link {
+        position: fixed;
+        display: block;
+        /* show this only on small screens */
+        top: 0;
+        left: 0;
+        /* "#menu width" */
+        font-size: 10px;
+        /* change this value to increase/decrease button size */
+        z-index: 10;
+        width: 2em;
+        height: auto;
+        padding: 1.6em 1.2em;
+        border-radius: 0 2px 2px 0;
+      }
+
+      .menu-link:hover {
+        background: #f4f4f4;
+      }
+
+      .menu-link span {
+        position: relative;
+        display: block;
+      }
+
+      .menu-link span,
+      .menu-link span:before,
+      .menu-link span:after {
+        background-color: #555;
+        width: 100%;
+        height: 0.2em;
+        border-radius: 1em;
+      }
+
+      .menu-link span:before,
+      .menu-link span:after {
+        position: absolute;
+        margin-top: -0.6em;
+        content: " ";
+      }
+
+      .menu-link span:after {
+        margin-top: 0.6em;
+      }
+
+      /* Hides the menu at `48em`, but modify this based on your app's needs. */
+
+      @media (min-width: 48em) {
+        .header,
+        .content {
+          padding-left: 2em;
+          padding-right: 2em;
+        }
+
+        #layout {
+          padding-left: 0px;
+          /* left col width "#menu" */
+          left: 0;
+        }
+        #menu {
+          left: 250px;
+        }
+
+        .menu-link {
+          position: fixed;
+          left: 250px;
+          display: none;
+        }
+
+        #layout.active .menu-link {
+          left: 250px;
+        }
+      }
+
+      @media (max-width: 48em) {
+        /* Only apply this when the window is small. Otherwise, the following case results in extra padding on the left:
+         * Make the window small.
+         * Tap the menu to trigger the active state.
+         * Make the window large again.
+         */
+        #layout.active {
+          position: relative;
+          left: 250px;
+        }
+      }
+
+      /* Heading anchors and permalinks */
+      h1[id],
+      h2[id],
+      h3[id],
+      h4[id],
+      h5[id],
+      h6[id] {
+        position: relative;
+      }
+      .heading-anchor-permalink {
+        /* Position the permalink to the left of the title */
+        position: absolute;
+        right: 100%;
+        /* Add some spacing as padding to not lose the hover */
+        padding-right: 0.6rem;
+        /* Make it only visible on heading hover, see below */
+        opacity: 0;
+      }
+      h1[id]:hover .heading-anchor-permalink,
+      h2[id]:hover .heading-anchor-permalink,
+      h3[id]:hover .heading-anchor-permalink,
+      h4[id]:hover .heading-anchor-permalink,
+      h5[id]:hover .heading-anchor-permalink,
+      h6[id]:hover .heading-anchor-permalink {
+        opacity: 0.5;
+      }
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+  </head>
+
+  <body>
+    <div id="layout">
+      <!-- Menu toggle -->
+      <a href="#menu" id="menuLink" class="menu-link">
+        <!-- Hamburger icon -->
+        <span></span>
+        <nav></nav>
+      </a>
+      <article id="main" class="content">
+        <h1 id="ivica-matic---software-engineer">Ivica Matic - Software Engineer <a class="heading-anchor-permalink" href="#ivica-matic---software-engineer">#</a></h1>
+<p><a href="mailto://ivica-matic@outlook.com">ivica-matic@outlook.com</a><br>
+<a href="https://www.linkedin.com/in/matic-ivica/">www.linkedin.com/in/matic-ivica</a><br>
+<a href="https://github.com/ivica3730k">www.github.com/ivica3730k</a></p>
+<p>Software Engineer currently working at Group Nexus, with a passion for Engineering, DevOps, Electronics, 3D Printing and Amateur Radio.</p>
+<h2 id="backend-software-engineer-%40-group-nexus">Backend Software Engineer @ <a href="https://groupnexus.co.uk/">Group Nexus</a> <a class="heading-anchor-permalink" href="#backend-software-engineer-%40-group-nexus">#</a></h2>
+<p>Apr, 2024 - Present</p>
+<ul>
+<li>Creating, maintaining, securing and optimizing API services that accept 100s of live ANPR movements per second for various camera payloads and types, storing them from audit purposes and offloading to event-driven pipelines for further processing.</li>
+<li>Solving existing techical debt by identifying clear domain areas of the business and steering the refactoring efforts of the team thowards cleaner architecure.</li>
+<li>Migrating existing system components to the new CI/CD flows.</li>
+<li>Writing techincal documentation for new and existing proceses.</li>
+</ul>
+<h2 id="software-engineer-%40-spatial-days-ltd.">Software Engineer @ <a href="www.spatialdays.com">Spatial Days Ltd.</a> <a class="heading-anchor-permalink" href="#software-engineer-%40-spatial-days-ltd.">#</a></h2>
+<p>May, 2022 - Apr, 2024</p>
+<ul>
+<li>Directly involved in creating and deploying piplines for generating custom-based earth-observation datasets from Sattelite and Aerial photography.</li>
+<li>Designing and building the workflow-like platform for custom EO workflows togather with various EO experts and end users.</li>
+<li>Designing and building event-driven architecure for ingesting millions of EO datasets and cataloguing them using STAC format.</li>
+</ul>
+<p>Worked on:</p>
+<ul>
+<li><a href="https://sa.catapult.org.uk/blogs/adopting-stac-to-simplify-geospatial-workflows/"><strong>Adopting STAC to simplify geospatial workflows</strong></a></li>
+</ul>
+<h2 id="software-engineer-%40-sundance-multiprocessor-ltd.">Software Engineer @ <a href="www.sundance.com">Sundance Multiprocessor Ltd.</a> <a class="heading-anchor-permalink" href="#software-engineer-%40-sundance-multiprocessor-ltd.">#</a></h2>
+<p>May, 2020 - April, 2022</p>
+<ul>
+<li>Member of a Design Engineering team working on creating Edge Embedded solutions utilizing FPGAs for various use cases with customers ranging from Agriculture to the Mining industry.</li>
+<li>Working on embedded real-time projects using ROS, ROS2, and MQTT with Python and C++.</li>
+<li>Creating Computer Vision embedded applications utilizing Object detection neural networks, on CPU, GPU, and FPGA platforms.</li>
+<li>Training image detection neural network models from scratch, labeling custom, problem-specific datasets.</li>
+</ul>
+<p>Worked on:</p>
+<ul>
+<li><a href="https://www.sundance.com/flipper-testing/"><strong>Autonomous Robotic InSpEction (ARISE)</strong></a></li>
+<li><a href="https://www.sundance.com/fieldcompanion-finale/"><strong>Field Companion</strong></a></li>
+</ul>
+<h2 id="skills-and-technologies">Skills and Technologies <a class="heading-anchor-permalink" href="#skills-and-technologies">#</a></h2>
+<ul>
+<li>Python, C++, Bash.</li>
+<li>PostgreSQL, MySQL, Firebase.</li>
+<li>PyTorch, Tenorflow, Keras.</li>
+<li>Terraform, GitHub Actions, GitLab actions.</li>
+<li>Various Docker container registries and build pipelines.</li>
+<li>Kubernetes, Dask.</li>
+<li>Serverless compute services from Google Cloud Platform and Azure.</li>
+<li>API Gateways and various Load-Balancer + Cloudflare protection offerings.</li>
+<li>Use of various Auth providers, Microsoft AD (Entra ID), Auth0…</li>
+</ul>
+<h2 id="bsc-(hons)-software-engineering---1st-class-%40-nottingham-trent-university">BSc (Hons) Software Engineering - 1st Class @ <a href="www.ntu.ac.uk">Nottingham Trent University</a> <a class="heading-anchor-permalink" href="#bsc-(hons)-software-engineering---1st-class-%40-nottingham-trent-university">#</a></h2>
+<p>2018 - 2021</p>
+<h2 id="publications">Publications <a class="heading-anchor-permalink" href="#publications">#</a></h2>
+<ul>
+<li><a href="https://arxiv.org/abs/2207.06150v1"><strong>Estimating the Power Consumption of Heterogeneous Devices when performing AI Inference</strong></a></li>
+<li><a href="https://www.sundance.com/hipeac-internship-2021/"><strong>Power Profiling Embedded FPGA Systems</strong></a></li>
+<li><a href="https://www.hackster.io/sundance-ai/fruit-detection-using-mpsocs-cc0e80"><strong>Fruit Detection Using MPSoCs</strong></a></li>
+</ul>
+
+      </article>
     </div>
-  </header>
-  <!--Header-end-->
-  <!-- start banner Area -->
-  <section class="banner-area pt-0">
-    <div class="container pt-0">
-      <div class="d-md-none">
-        <!-- if it is small device -->
-        <div class="row  align-items-center justify-content-between">
-          <div class="col-lg-6 col-md-6 banner-left">
-            <h6>Hello world,this is me...</h6>
-            <h1>Ivica Matić</h1>
-            <p>
-              Who am I, What I do, How I do?
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="d-none d-md-block">
-        <!-- if it is not small device -->
-        <div class="row fullscreen align-items-center justify-content-between">
-          <div class="col-lg-6 col-md-6 banner-left">
-            <h6>Hello world,this is me...</h6>
-            <h1>Ivica Matić</h1>
-            <p>
-              Software Engineering Student<br> <small> <a href="https://www.ntu.ac.uk">Nottingham Trent University</a>
-              </small>
-              <br> Software Developer<br> <small> <a href="https://groupnexus.co.uk/">Group Nexus</a>
-              </small>
-            </p>
-            <a href="./media/uploads/cv.pdf" class="primary-btn text-uppercase">My CV</a>
+    <script>
+      // Load contents.json if you need it
+    </script>
+    <script>
+      // FROM http://purecss.io/js/ui.js
+      (function(window, document) {
+        var layout = document.getElementById("layout"),
+          menu = document.getElementById("menu"),
+          menuLink = document.getElementById("menuLink");
 
-          </div>
-          <div class="col-lg-6 col-md-6 banner-right d-flex align-self-end">
-            <img class="img-fluid" src="./media/homeImg.png" alt="">
-          </div>
-        </div>
-      </div>
-  </section>
-  <!-- End banner Area -->
-  <!-- Start services Area -->
-  <section class="services-area">
-    <div class="container">
-      <div class="row d-flex justify-content-center">
-        <div class="menu-content  col-lg-7">
-          <div class="title text-center">
-            <h1 class="mb-10">About me</h1>
-            <p></p>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-lg-4 col-md-6">
-          <div class="single-services">
-            <span class="lnr lnr-code"></span>
-            <a href="#">
-              <h4>Software Engineer</h4>
-            </a>
-            <p>
-              Software Engineer from Nottingham Trent University, graduated in 2022. Passionate about computer science, software and embedded
-              hardware development. Prior Experience in the world of Computer Vision, AI/ML, Embedded microelectronics, IoT, robotics, FPGAs and much more.
-            </p>
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-6">
-          <div class="single-services">
-            <span class="lnr lnr-eye"></span>
-            <a href="#">
-              <h4>Computer Vision & AI/ML</h4>
-            </a>
-            <p>
-              Big interest in the world of AI and Machine Learning, with applied knowledge in Computer Vision and Image Processing. Experience
-              with specialized Computer Vision equipment, such as the Intel RealSense D435i, Oak-D and many other devices including various
-              other cameras, sensors and actuators. Experience with various AI/ML frameworks and libraries such as Tensorflow, Pytorch, Keras, OpenCV and Scikit-learn
-            </p>
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-6">
-          <div class="single-services">
-            <span class="lnr lnr-cloud"></span>
-            <a href="#">
-              <h4>Cloud Computing</h4>
-            </a>
-            <p>
-            Familiar with the world of cloud computing with the use of various products from AWS, Azure and Google Cloud. Products used include
-            AWS EC2, AWS S3, AWS RDS, AWS App Runner, Azure Gateway, Azure Blob Storage, Azure App Service, Google Cloud Functions, Google Cloud Storage and Google Cloud Run.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!-- End services Area -->
-  <!-- Start timeline Area -->
+        function toggleClass(element, className) {
+          var classes = element.className.split(/\s+/),
+            length = classes.length,
+            i = 0;
 
-  <!-- End timeline Area -->
-  <!-- Start timeline Area -->
-  <section class="timeline">
-    <div class="text-center">
-      <div class="menu-content pb-60">
-        <div class="title text-center">
-          <h1 class="mb-10">Work Experience</h1>
-        </div>
-      </div>
-    </div>
-    <ul>
-      <li>
-        <div class="content">
-          <h4>
-            <time>Software Developer</time>
-            <br>
+          for (; i < length; i++) {
+            if (classes[i] === className) {
+              classes.splice(i, 1);
+              break;
+            }
+          }
+          // The className is not found
+          if (length === classes.length) {
+            classes.push(className);
+          }
 
-          </h4>
-          <p style="text-align: center;">
-            Group Nexus Ltd. <br>
-            <a href="https://groupnexus.co.uk/">www.groupnexus.co.uk</a>
-            <br>April,2024 - Present
-          </p>
-        </div>
-      </li>
-      <li>
-        <div class="content">
-          <h4>
-            <time>Software Developer</time>
-            <br>
+          element.className = classes.join(" ");
+        }
 
-          </h4>
-          <p style="text-align: center;">
-            Spatial Days Ltd. <br>
-            <a href="https://www.spatialdays.com">www.spatialdays.com</a>
-            <br>May,2022 - April,2024
-          </p>
-        </div>
-      </li>
-      <li>
-        <div class="content">
-          <h4>
-            <time>Software Engineer</time>
-            <br>
+        menuLink.onclick = function(e) {
+          var active = "active";
 
-          </h4>
-          <p style="text-align: center;">
-            Sundance Multiprocessor Technology Ltd. <br>
-            <a href="https://www.sundance.com">www.sundance.com</a>
-            <br>May,2020 - April,2022
-          </p>
-        </div>
-      </li>
-    </ul>
-  </section>
-  <section class="timeline">
-    <div class="text-center">
-      <div class="menu-content pb-60">
-        <div class="title text-center">
-          <h1 class="mb-10">Education</h1>
-        </div>
-      </div>
-    </div>
-    <ul>
-      <li>
-        <div class="content">
-          <h4>
-            <time>BSc (Hons) Software Engineer</time>
-          </h4>
-          <p style="text-align: center;">
-            Nottingham Trent University <br>
-            <a href="https://www.ntu.ac.uk">www.ntu.ac.uk</a>
-            <br>Current student
-            <br> September,2018 - Present
-          </p>
-          <p style="text-align: center;">&nbsp;</p>
-        </div>
-      </li>
-      <li>
-        <div class="content">
-          <h4>
-            <time>Computer Technician</time>
-          </h4>
-          <p style="text-align: center;">
-            Technical School Slavonski Brod <br>
-            <a href="https://tssb.hr">www.tssb.hr</a>
-            <br>September,2014 - May,2018
-          </p>
-        </div>
-      </li>
-    </ul>
-  </section>
-  <!-- End timeline Area -->
-  <!-- Start services Area -->
-  <section class="services-area">
-    <div class="container">
-      <div class="row d-flex justify-content-center">
-        <div class="menu-content  col-lg-7">
-          <div class="title text-center">
-            <h1 class="mb-10">Projects</h1>
-            <p></p>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-lg-4 col-md-6">
-          <div class="single-services">
-            <a href="https://github.com/ivica3730k/IoT-Storage-Box">
-              <h4>IoT Storage Box</h4>
-            </a>
-            <p>
-              Simple IoT storage project working inside Docker Container or standalone. Saving data to sqlite3 database
-              file. Used to store sensor information from GSM/WiFi IoT Devices
-            </p>
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-6">
-          <div class="single-services">
-            <a href="https://github.com/ivica3730k/New-People-Counter">
-              <h4>People Counter</h4>
-            </a>
-            <p>
-              Simple people visit counter created for counting library visits in Technical School Slavonski Brod,
-              Croatia. Using Arduino to detect the walk-ins and Flask application to store, process and display data.
-            </p>
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-6">
-          <div class="single-services">
-            <a href="#">
-              <h4>Nottinghamshire Police Community Engagement Management Project</h4>
-            </a>
-            <p>
-              Community interaction Management system for Nottinghamshire Police use. Used for managing police-hosted
-              events with community representatives, tracking Management frequency and officer efficiency.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!-- End services Area -->
-   <!-- Start services Area -->
-   <section class="services-area">
-    <div class="container">
-      <div class="row d-flex justify-content-center">
-        <div class="menu-content  col-lg-7">
-          <div class="title text-center">
-            <h1 class="mb-10">Research and Publications</h1>
-            <p></p>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-lg-4 col-md-6">
-          <div class="single-services">
-            <a href="https://arxiv.org/abs/2207.06150v1">
-              <h4>Estimating the Power Consumption of Heterogeneous Devices when performing AI Inference</h4>
-            </a>
-            <p>
-              Paper which characterizes the power consumption of heterogeneous devices when performing AI inference on a
-              example of the consumption profile and analysis of the NVIDIA Jetson Nano board while performing object classification.
-              <br>
-              <br>
-              <a href="https://arxiv.org/abs/2207.06150v1">https://arxiv.org/abs/2207.06150v1</a>
-            </p>
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-6">
-          <div class="single-services">
-            <a href="https://www.hackster.io/sundance-ai/fruit-detection-using-mpsocs-cc0e80">
-              <h4>Fruit Detection Using MPSoCs</h4>
-            </a>
-            <p>
-              Fruit detection and counting using Xilinx Zynq MPSoC and Vitis-AI. The project utilises capturing a dataset for the training of the neural network, 
-              labeling the dataset, training the YOLOv3 CNN on GPU and finally 
-              accelerating it using Xilinx Vitis-AI Toolchain.
-              Part of a Field Companion project undertaken while working at Sundance Multiprocessor Technology Ltd.
-              <br>
-              <br>
-              <a href="https://www.hackster.io/sundance-ai/fruit-detection-using-mpsocs-cc0e80">https://www.hackster.io/sundance-ai/fruit-detection-using-mpsocs-cc0e80</a>
-            </p>
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-6">
-          <div class="single-services">
-            <a href="https://github.com/SundanceMultiprocessorTechnology/XOHWC-SundanceVCS1-Power-Profiling">
-              <h4>Power Profiling Custom Application on VCS-1</h4>
-            </a>
-            <p>
-              Power profiling of a custom application on Sundance VCS-1 PC/104 Board accompanied with ZU4EV MPSoC module.
-              The example shows a matrix multiplication app running both on the ZU4EV and the ARM Cortex-A9 core of the VCS-1, proceeding to
-              evaluate the power consumption of both.
-              <br>
-              <br>
-              <a href="https://github.com/SundanceMultiprocessorTechnology/XOHWC-SundanceVCS1-Power-Profiling">https://github.com/SundanceMultiprocessor<br>Technology/XOHWC-SundanceVCS1-Power-Profiling
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!-- End services Area -->
-  <!-- start footer Area -->
-  <footer class="footer-area pt-20 pb-40">
-    <div class="container">
-      <div class="row justify-content-center text-center">
-        <div class="col-lg-2 col-md-6 col-sm-6 ">
-          <div class="single-footer-widget">
-            <div class="footer-social">
-              <a href="https://www.linkedin.com/in/matic-ivica/"><i class="fa fa-linkedin"></i></a>
-              <a href="https://github.com/ivica3730k"><i class="fa fa-github"></i></a>
-              <a href="https://www.facebook.com/ivica.matic.00"><i class="fa fa-facebook"></i></a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </footer>
-  <!-- End footer Area -->
-  <script src="./static/js/vendor/jquery-2.2.4.min.js"></script>
-  <script src="./static/js/popper.min.js"></script>
-  <script src="./static/js/vendor/bootstrap.min.js"></script>
-  <script src="./static/js/easing.min.js"></script>
-  <script src="./static/js/hoverIntent.js"></script>
-  <script src="./static/js/superfish.min.js"></script>
-  <script src="./static/js/jquery.ajaxchimp.min.js"></script>
-  <script src="./static/js/jquery.magnific-popup.min.js"></script>
-  <script src="./static/js/jquery.tabs.min.js"></script>
-  <script src="./static/js/jquery.nice-select.min.js"></script>
-  <script src="./static/js/isotope.pkgd.min.js"></script>
-  <script src="./static/js/waypoints.min.js"></script>
-  <script src="./static/js/jquery.counterup.min.js"></script>
-  <script src="./static/js/simple-skillbar.js"></script>
-  <script src="./static/js/owl.carousel.min.js"></script>
-  <script src="./static/js/mail-script.js"></script>
-  <script src="./static/js/main.js"></script>
-</body>
-
+          e.preventDefault();
+          toggleClass(layout, active);
+          toggleClass(menu, active);
+          toggleClass(menuLink, active);
+        };
+      })(this, this.document);
+    </script>
+  </body>
 </html>
