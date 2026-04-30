@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kent Classic — 2024 vs 2025</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400&family=JetBrains+Mono:wght@400;500&family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #1a1612;
+    --bg-elev: #221d18;
+    --bg-card: #2a241e;
+    --ink: #f4ead8;
+    --ink-dim: #b8ad99;
+    --ink-faint: #7a7264;
+    --accent: #e87a3f;
+    --accent-warm: #d4a574;
+    --y24: #6ba3d6;
+    --y25: #e87a3f;
+    --rule: #3a322a;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); color: var(--ink); }
+  body {
+    font-family: 'Inter Tight', system-ui, sans-serif;
+    font-weight: 400; line-height: 1.6;
+    font-feature-settings: 'ss01', 'cv11';
+    background-image:
+      radial-gradient(at 15% 0%, rgba(232,122,63,0.06) 0%, transparent 50%),
+      radial-gradient(at 85% 100%, rgba(107,163,214,0.04) 0%, transparent 50%);
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+  .grain {
+    position: fixed; inset: 0; pointer-events: none; opacity: 0.4; z-index: 100;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 4rem 2rem 6rem; }
+
+  header.masthead {
+    border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+    padding: 1rem 0; display: flex; justify-content: space-between; align-items: center;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    letter-spacing: 0.15em; text-transform: uppercase; color: var(--ink-dim);
+    margin-bottom: 5rem;
+  }
+  header.masthead .dot {
+    display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent); margin-right: 8px;
+    animation: pulse 2.5s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+  .hero { margin-bottom: 5rem; position: relative; }
+  .hero .kicker {
+    font-family: 'JetBrains Mono', monospace; font-size: 12px;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent);
+    margin-bottom: 2rem; display: inline-flex; align-items: center; gap: 12px;
+  }
+  .hero .kicker::before { content: ''; width: 32px; height: 1px; background: var(--accent); }
+  .hero h1 {
+    font-family: 'Fraunces', serif; font-weight: 300;
+    font-size: clamp(3rem, 7vw, 5.2rem); line-height: 0.95;
+    letter-spacing: -0.03em; margin-bottom: 2rem;
+    font-variation-settings: 'opsz' 144;
+  }
+  .hero h1 em { font-style: italic; font-weight: 400; color: var(--accent-warm); }
+  .hero .lede {
+    font-family: 'Fraunces', serif; font-weight: 300; font-size: 1.4rem;
+    line-height: 1.5; color: var(--ink-dim); max-width: 38rem;
+    font-variation-settings: 'opsz' 36;
+  }
+
+  /* Versus banner */
+  .versus {
+    display: grid; grid-template-columns: 1fr auto 1fr; gap: 2rem;
+    align-items: center; padding: 2.5rem 0;
+    border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+    margin-bottom: 5rem;
+  }
+  .versus .side { text-align: center; }
+  .versus .side.right { text-align: center; }
+  .versus .year {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    letter-spacing: 0.25em; color: var(--ink-faint); margin-bottom: 0.5rem;
+  }
+  .versus .y24-color .year { color: var(--y24); }
+  .versus .y25-color .year { color: var(--y25); }
+  .versus .date {
+    font-family: 'Fraunces', serif; font-style: italic;
+    font-size: 1rem; color: var(--ink-dim); margin-bottom: 1rem;
+  }
+  .versus .stats-row {
+    display: flex; justify-content: center; gap: 2rem;
+    font-family: 'Fraunces', serif;
+  }
+  .versus .stats-row .item .num {
+    font-size: 1.6rem; line-height: 1; letter-spacing: -0.02em;
+  }
+  .versus .stats-row .item .lbl {
+    font-family: 'JetBrains Mono', monospace; font-size: 9px;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-faint);
+    margin-top: 0.4rem;
+  }
+  .versus .vs {
+    font-family: 'Fraunces', serif; font-style: italic;
+    font-size: 2.5rem; color: var(--accent); font-weight: 300;
+  }
+
+  section { margin-bottom: 5rem; }
+
+  .section-head { margin-bottom: 2.5rem; }
+  .section-head .num {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    letter-spacing: 0.2em; color: var(--accent); margin-bottom: 1rem;
+  }
+  .section-head h2 {
+    font-family: 'Fraunces', serif; font-weight: 400; font-size: 2.4rem;
+    line-height: 1.1; letter-spacing: -0.02em; max-width: 32rem;
+    font-variation-settings: 'opsz' 72;
+  }
+  .section-head h2 em { font-style: italic; color: var(--accent-warm); font-weight: 300; }
+
+  .prose {
+    font-family: 'Fraunces', serif; font-weight: 300; font-size: 1.15rem;
+    line-height: 1.65; color: var(--ink-dim); max-width: 38rem;
+    margin-bottom: 2.5rem; font-variation-settings: 'opsz' 24;
+  }
+  .prose p + p { margin-top: 1rem; }
+  .prose strong { color: var(--ink); font-weight: 500; font-style: normal; }
+
+  /* Caveat callout */
+  .callout {
+    background: rgba(232,122,63,0.07);
+    border-left: 3px solid var(--accent);
+    padding: 1.25rem 1.5rem; margin-bottom: 2.5rem;
+    font-family: 'Fraunces', serif; font-size: 1rem; line-height: 1.6;
+    color: var(--ink-dim);
+  }
+  .callout strong { color: var(--accent-warm); font-weight: 400; font-style: italic; }
+
+  /* Chart cards */
+  .chart-card {
+    background: var(--bg-elev); border: 1px solid var(--rule);
+    padding: 2rem 1.75rem 1.5rem; margin-bottom: 1.5rem;
+  }
+  .chart-card .chart-title {
+    font-family: 'Fraunces', serif; font-size: 1.1rem;
+    color: var(--ink); margin-bottom: 0.4rem;
+  }
+  .chart-card .chart-sub {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    letter-spacing: 0.15em; text-transform: uppercase; color: var(--ink-faint);
+    margin-bottom: 1.5rem;
+  }
+  .chart-legend {
+    display: flex; flex-wrap: wrap; gap: 1.25rem;
+    font-size: 12px; color: var(--ink-dim); margin-bottom: 1rem;
+  }
+  .chart-legend .item { display: flex; align-items: center; gap: 8px; }
+  .chart-legend .swatch { width: 14px; height: 3px; }
+  .chart-wrap { position: relative; width: 100%; height: 280px; }
+  .chart-wrap.tall { height: 340px; }
+  .chart-note {
+    font-size: 11px; color: var(--ink-faint); margin-top: 1rem;
+    font-style: italic; text-align: center; font-family: 'Fraunces', serif;
+  }
+
+  /* Climb table */
+  .climb-table {
+    width: 100%; border-collapse: collapse; margin-bottom: 2rem;
+    font-family: 'Inter Tight', sans-serif;
+  }
+  .climb-table thead th {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--ink-faint); text-align: left; font-weight: 400;
+    padding: 0.75rem 0.5rem; border-bottom: 1px solid var(--rule);
+  }
+  .climb-table thead th.right { text-align: right; }
+  .climb-table tbody td {
+    padding: 0.85rem 0.5rem; border-bottom: 1px solid var(--rule);
+    font-size: 13px; color: var(--ink-dim);
+  }
+  .climb-table tbody td.right { text-align: right; font-family: 'Fraunces', serif; font-size: 1rem; color: var(--ink); }
+  .climb-table tbody tr:hover { background: rgba(232,122,63,0.03); }
+  .climb-table .delta { font-family: 'Fraunces', serif; font-style: italic; font-size: 0.95rem; }
+  .climb-table .delta.faster { color: #7fb069; }
+  .climb-table .delta.slower { color: var(--y25); }
+  .climb-table .delta.even { color: var(--ink-faint); }
+  .climb-table .climb-id { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.05em; color: var(--ink-faint); }
+  .climb-table .climb-spec { color: var(--ink); font-family: 'Fraunces', serif; font-size: 1rem; }
+  .climb-table .climb-spec em { color: var(--ink-faint); font-style: italic; font-size: 0.85em; }
+
+  /* Verdict */
+  .verdict-box {
+    margin-top: 5rem; padding: 3rem 2rem; background: var(--bg-elev);
+    border-left: 3px solid var(--accent); position: relative;
+  }
+  .verdict-box h3 {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent);
+    margin-bottom: 1.5rem;
+  }
+  .verdict-box p {
+    font-family: 'Fraunces', serif; font-weight: 300; font-size: 1.3rem;
+    line-height: 1.55; color: var(--ink); font-variation-settings: 'opsz' 36;
+  }
+  .verdict-box p + p { margin-top: 1rem; }
+  .verdict-box em { color: var(--accent-warm); font-style: italic; }
+
+  footer {
+    margin-top: 5rem; padding-top: 2rem; border-top: 1px solid var(--rule);
+    display: flex; justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-faint);
+  }
+
+  @media (max-width: 720px) {
+    .wrap { padding: 2rem 1.25rem 4rem; }
+    .versus { grid-template-columns: 1fr; gap: 1rem; }
+    .versus .vs { font-size: 1.5rem; }
+    .versus .stats-row { gap: 1rem; }
+    .versus .stats-row .item .num { font-size: 1.2rem; }
+    .climb-table { font-size: 12px; }
+    .climb-table thead th, .climb-table tbody td { padding: 0.5rem 0.3rem; }
+    .hero h1 { font-size: 2.6rem; }
+  }
+
+  .reveal { opacity: 0; transform: translateY(20px); animation: rise 0.8s ease forwards; }
+  @keyframes rise { to { opacity: 1; transform: translateY(0); } }
+  .d1 { animation-delay: 0.1s; }
+  .d2 { animation-delay: 0.25s; }
+  .d3 { animation-delay: 0.4s; }
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <span><span class="dot"></span>Kent Classic · Head-to-Head</span>
+    <span>Two laps, twelve months apart</span>
+  </header>
+
+  <div class="hero reveal d1">
+    <div class="kicker">Same route, two years</div>
+    <h1>One slower on paper.<br>One <em>faster where it matters</em>.</h1>
+    <p class="lede">A near-identical 110-kilometre loop, ridden a year apart on the same weekend in late October. The averages say 2025 was slower. The climb-by-climb data says something more interesting.</p>
+  </div>
+
+  <div class="versus reveal d2">
+    <div class="side y24-color">
+      <div class="year">— 2024 —</div>
+      <div class="date">27 October</div>
+      <div class="stats-row">
+        <div class="item"><div class="num">113.6<em style="font-size:0.7rem;font-style:italic;color:var(--ink-faint)"> km</em></div><div class="lbl">distance</div></div>
+        <div class="item"><div class="num">19.1<em style="font-size:0.7rem;font-style:italic;color:var(--ink-faint)"> km/h</em></div><div class="lbl">avg moving</div></div>
+        <div class="item"><div class="num">1,585<em style="font-size:0.7rem;font-style:italic;color:var(--ink-faint)"> m</em></div><div class="lbl">climbed</div></div>
+      </div>
+    </div>
+    <div class="vs">vs</div>
+    <div class="side y25-color">
+      <div class="year">— 2025 —</div>
+      <div class="date">25 October</div>
+      <div class="stats-row">
+        <div class="item"><div class="num">110.9<em style="font-size:0.7rem;font-style:italic;color:var(--ink-faint)"> km</em></div><div class="lbl">distance</div></div>
+        <div class="item"><div class="num">18.4<em style="font-size:0.7rem;font-style:italic;color:var(--ink-faint)"> km/h</em></div><div class="lbl">avg moving</div></div>
+        <div class="item"><div class="num">1,520<em style="font-size:0.7rem;font-style:italic;color:var(--ink-faint)"> m</em></div><div class="lbl">climbed</div></div>
+      </div>
+    </div>
+  </div>
+
+  <section class="reveal d3">
+    <div class="section-head">
+      <div class="num">01 / The route</div>
+      <h2>Two profiles, <em>almost identical</em>.</h2>
+    </div>
+    <div class="prose">
+      <p>Same start, same finish, same hills. The 2025 ride is 2.7 km shorter and climbs 65 m less, but the elevation profile traces the 2024 route almost exactly — which makes a clean year-on-year comparison possible.</p>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">Elevation profile · both rides overlaid</div>
+      <div class="chart-sub">Distance vs altitude</div>
+      <div class="chart-legend">
+        <span class="item"><span class="swatch" style="background:#6ba3d6"></span>2024</span>
+        <span class="item"><span class="swatch" style="background:#e87a3f"></span>2025</span>
+      </div>
+      <div class="chart-wrap"><canvas id="profile" role="img" aria-label="Elevation profile of both Kent Classic rides overlaid">Elevation profile of both rides showing nearly identical terrain.</canvas></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <div class="num">02 / A note on heart rate</div>
+      <h2>The 2024 sensor was <em>broken</em>.</h2>
+    </div>
+    <div class="callout">
+      <strong>HR data from 2024 is unusable.</strong> The sensor reads a flat 132 bpm for the entire 7-hour ride — average equals max equals minimum. Either the chest strap died at the start or it was reading cadence. So this analysis compares speed and climbing performance across both years, but heart rate is only available for 2025 (avg 159, max 195 — a genuinely hard day).
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <div class="num">03 / The climbs</div>
+      <h2>Slower on the punchy ones. <em>Faster where it counts</em>.</h2>
+    </div>
+    <div class="prose">
+      <p>The route has nine matchable climbs. In 2024 you hammered the short ones — VAMs of 514, 516, 497 on climbs under two kilometres are higher than anything you've matched on a repeated climb since.</p>
+      <p>In 2025 you backed off the punchy efforts and rode the long sustained climbs harder. <strong>Climb 5 — the longest of the day at 2.9 km, 4.7% — was 2.2 minutes faster.</strong> Same on climbs 6 and 9.</p>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">Time on each climb · 2024 vs 2025</div>
+      <div class="chart-sub">Lower is faster · climbs ordered by appearance in route</div>
+      <div class="chart-legend">
+        <span class="item"><span class="swatch" style="background:#6ba3d6"></span>2024</span>
+        <span class="item"><span class="swatch" style="background:#e87a3f"></span>2025</span>
+      </div>
+      <div class="chart-wrap tall"><canvas id="climbs" role="img" aria-label="Bar chart comparing time on each climb between 2024 and 2025">Time spent on each climb compared between the two years.</canvas></div>
+    </div>
+
+    <table class="climb-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Climb</th>
+          <th class="right">2024</th>
+          <th class="right">2025</th>
+          <th class="right">Δ Time</th>
+          <th class="right">Δ VAM</th>
+        </tr>
+      </thead>
+      <tbody id="climbtable"></tbody>
+    </table>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <div class="num">04 / The verdict on speed</div>
+      <h2>The slowdown wasn't on the hills. It was <em>between them</em>.</h2>
+    </div>
+    <div class="prose">
+      <p>Total time spent climbing across the matched climbs: <strong>118.8 min in 2024 vs 118.9 min in 2025</strong>. Identical. Average VAM across all detected climbs: 422 vs 420. Also identical.</p>
+      <p>So the 0.7 km/h drop in average speed isn't coming from the climbs. The total ride was 8 minutes shorter in 2025 (less time stopped — 50 min vs 63 min stationary), but moving time went up by 8 minutes for slightly less distance. <strong>The flat sections were slower in 2025.</strong> Possible explanations: wind, bunch tactics, fitness focus on climbs over flats, or just having a less aggressive pacing day.</p>
+    </div>
+  </section>
+
+  <div class="verdict-box">
+    <h3>The verdict</h3>
+    <p>2024 was a <em>punchy, aggressive ride</em> with a broken HR strap and ridiculous VAMs on the short climbs. 2025 was a <em>more even effort</em> with real fitness data backing it up — and on the climbs that actually matter (the long sustained ones), you were faster.</p>
+    <p>If you compare on time-spent-climbing alone, the two rides are dead level. If you compare on the long climbs — the closest thing to a fitness test — 2025 was clearly the better ride.</p>
+  </div>
+
+  <footer>
+    <span>Generated from Strava GPX/FIT</span>
+    <span>Two laps · 9 matched climbs</span>
+  </footer>
+
+</div>
+
+<script>
+const profile24 = [{"d":0.0,"e":47.6},{"d":0.38,"e":48.4},{"d":0.76,"e":47.9},{"d":1.14,"e":47.3},{"d":1.52,"e":48.5},{"d":1.9,"e":51.7},{"d":2.28,"e":53.5},{"d":2.66,"e":54.4},{"d":3.04,"e":61.3},{"d":3.42,"e":74.0},{"d":3.8,"e":83.8},{"d":4.18,"e":87.8},{"d":4.56,"e":92.7},{"d":4.94,"e":98.3},{"d":5.32,"e":103.0},{"d":5.7,"e":107.6},{"d":6.08,"e":108.5},{"d":6.46,"e":113.6},{"d":6.84,"e":114.6},{"d":7.22,"e":105.0},{"d":7.6,"e":89.8},{"d":7.98,"e":74.5},{"d":8.36,"e":58.7},{"d":8.74,"e":47.7},{"d":9.12,"e":43.6},{"d":9.5,"e":50.6},{"d":9.88,"e":59.6},{"d":10.27,"e":68.0},{"d":10.65,"e":81.5},{"d":11.03,"e":92.0},{"d":11.41,"e":104.6},{"d":11.79,"e":110.7},{"d":12.17,"e":113.5},{"d":12.55,"e":105.3},{"d":12.93,"e":98.4},{"d":13.31,"e":97.7},{"d":13.69,"e":94.3},{"d":14.07,"e":86.1},{"d":14.45,"e":78.4},{"d":14.83,"e":74.3},{"d":15.21,"e":65.0},{"d":15.59,"e":52.6},{"d":15.97,"e":56.1},{"d":16.35,"e":71.4},{"d":16.73,"e":78.5},{"d":17.11,"e":82.4},{"d":17.49,"e":92.5},{"d":17.87,"e":104.7},{"d":18.25,"e":115.2},{"d":18.63,"e":121.4},{"d":19.01,"e":124.7},{"d":19.39,"e":124.0},{"d":19.77,"e":120.0},{"d":20.15,"e":116.6},{"d":20.53,"e":113.4},{"d":20.91,"e":105.0},{"d":21.29,"e":97.7},{"d":21.67,"e":97.0},{"d":22.05,"e":94.5},{"d":22.43,"e":90.4},{"d":22.81,"e":85.0},{"d":23.19,"e":83.5},{"d":23.57,"e":85.6},{"d":23.95,"e":85.4},{"d":24.33,"e":81.0},{"d":24.71,"e":71.7},{"d":25.09,"e":61.7},{"d":25.47,"e":51.0},{"d":25.85,"e":56.7},{"d":26.23,"e":71.7},{"d":26.61,"e":85.7},{"d":26.99,"e":102.0},{"d":27.37,"e":117.0},{"d":27.75,"e":124.4},{"d":28.13,"e":131.6},{"d":28.51,"e":146.9},{"d":28.89,"e":152.4},{"d":29.27,"e":156.4},{"d":29.65,"e":167.7},{"d":30.03,"e":177.7},{"d":30.41,"e":177.9},{"d":30.79,"e":175.0},{"d":31.17,"e":171.6},{"d":31.55,"e":166.1},{"d":31.93,"e":154.2},{"d":32.31,"e":138.7},{"d":32.69,"e":131.7},{"d":33.07,"e":117.7},{"d":33.45,"e":102.5},{"d":33.83,"e":97.7},{"d":34.21,"e":94.5},{"d":34.59,"e":89.8},{"d":34.97,"e":86.5},{"d":35.35,"e":80.6},{"d":35.73,"e":83.0},{"d":36.11,"e":91.4},{"d":36.49,"e":109.5},{"d":36.88,"e":126.2},{"d":37.26,"e":143.7},{"d":37.64,"e":152.9},{"d":38.02,"e":154.7},{"d":38.4,"e":156.1},{"d":38.78,"e":158.9},{"d":39.16,"e":166.0},{"d":39.54,"e":169.5},{"d":39.92,"e":160.6},{"d":40.3,"e":146.6},{"d":40.68,"e":138.0},{"d":41.06,"e":129.0},{"d":41.44,"e":111.4},{"d":41.82,"e":97.4},{"d":42.2,"e":91.3},{"d":42.58,"e":104.5},{"d":42.96,"e":119.0},{"d":43.34,"e":123.7},{"d":43.72,"e":134.8},{"d":44.1,"e":150.3},{"d":44.48,"e":162.5},{"d":44.86,"e":177.7},{"d":45.24,"e":190.0},{"d":45.62,"e":200.7},{"d":46.0,"e":205.4},{"d":46.38,"e":205.5},{"d":46.76,"e":196.5},{"d":47.14,"e":182.2},{"d":47.52,"e":167.7},{"d":47.9,"e":156.7},{"d":48.28,"e":149.5},{"d":48.66,"e":133.4},{"d":49.04,"e":119.6},{"d":49.42,"e":108.0},{"d":49.8,"e":108.4},{"d":50.18,"e":121.7},{"d":50.56,"e":131.2},{"d":50.94,"e":146.2},{"d":51.32,"e":162.9},{"d":51.7,"e":174.8},{"d":52.08,"e":175.3},{"d":52.46,"e":172.4},{"d":52.84,"e":168.7},{"d":53.22,"e":167.6},{"d":53.6,"e":169.8},{"d":53.98,"e":167.3},{"d":54.36,"e":164.5},{"d":54.74,"e":156.9},{"d":55.12,"e":154.0},{"d":55.5,"e":160.5},{"d":55.88,"e":172.4},{"d":56.26,"e":182.3},{"d":56.64,"e":195.4},{"d":57.02,"e":211.8},{"d":57.4,"e":228.6},{"d":57.78,"e":240.7},{"d":58.16,"e":237.8},{"d":58.54,"e":231.4},{"d":58.92,"e":228.0},{"d":59.3,"e":230.4},{"d":59.68,"e":221.4},{"d":60.06,"e":206.7},{"d":60.44,"e":198.6},{"d":60.82,"e":192.7},{"d":61.2,"e":182.2},{"d":61.58,"e":169.3},{"d":61.96,"e":156.6},{"d":62.34,"e":141.6},{"d":62.72,"e":134.8},{"d":63.1,"e":131.0},{"d":63.49,"e":136.5},{"d":63.87,"e":141.6},{"d":64.25,"e":133.0},{"d":64.63,"e":138.5},{"d":65.01,"e":151.7},{"d":65.39,"e":160.7},{"d":65.77,"e":159.5},{"d":66.15,"e":150.7},{"d":66.53,"e":140.3},{"d":66.91,"e":133.5},{"d":67.29,"e":127.4},{"d":67.67,"e":117.6},{"d":68.05,"e":105.6},{"d":68.43,"e":92.5},{"d":68.81,"e":75.5},{"d":69.19,"e":61.5},{"d":69.57,"e":57.4},{"d":69.95,"e":62.7},{"d":70.33,"e":80.0},{"d":70.71,"e":89.0},{"d":71.09,"e":107.6},{"d":71.47,"e":124.4},{"d":71.85,"e":141.7},{"d":72.23,"e":151.5},{"d":72.61,"e":167.4},{"d":72.99,"e":182.6},{"d":73.37,"e":192.7},{"d":73.75,"e":201.5},{"d":74.13,"e":205.5},{"d":74.51,"e":205.7},{"d":74.89,"e":206.7},{"d":75.27,"e":214.7},{"d":75.65,"e":223.8},{"d":76.03,"e":230.7},{"d":76.41,"e":234.2},{"d":76.79,"e":237.7},{"d":77.17,"e":241.0},{"d":77.55,"e":233.6},{"d":77.93,"e":222.6},{"d":78.31,"e":210.3},{"d":78.69,"e":195.3},{"d":79.07,"e":181.4},{"d":79.45,"e":171.5},{"d":79.83,"e":158.7},{"d":80.21,"e":146.4},{"d":80.59,"e":135.4},{"d":80.97,"e":122.6},{"d":81.35,"e":107.3},{"d":81.73,"e":92.6},{"d":82.11,"e":78.0},{"d":82.49,"e":70.4},{"d":82.87,"e":71.5},{"d":83.25,"e":89.2},{"d":83.63,"e":108.9},{"d":84.01,"e":127.9},{"d":84.39,"e":143.5},{"d":84.77,"e":151.7},{"d":85.15,"e":151.8},{"d":85.53,"e":152.8},{"d":85.91,"e":159.5},{"d":86.29,"e":158.9},{"d":86.67,"e":158.0},{"d":87.05,"e":156.0},{"d":87.43,"e":156.0},{"d":87.81,"e":156.7},{"d":88.19,"e":160.3},{"d":88.57,"e":162.1},{"d":88.95,"e":159.9},{"d":89.33,"e":155.7},{"d":89.71,"e":151.1},{"d":90.09,"e":147.7},{"d":90.48,"e":146.5},{"d":90.86,"e":143.7},{"d":91.24,"e":135.4},{"d":91.62,"e":120.5},{"d":92.0,"e":104.4},{"d":92.38,"e":92.0},{"d":92.76,"e":81.7},{"d":93.14,"e":86.0},{"d":93.52,"e":105.6},{"d":93.9,"e":126.3},{"d":94.28,"e":146.7},{"d":94.66,"e":166.8},{"d":95.04,"e":174.0},{"d":95.42,"e":169.7},{"d":95.8,"e":162.9},{"d":96.18,"e":162.6},{"d":96.56,"e":162.4},{"d":96.94,"e":162.1},{"d":97.32,"e":162.7},{"d":97.7,"e":169.4},{"d":98.08,"e":177.3},{"d":98.46,"e":182.0},{"d":98.84,"e":174.7},{"d":99.22,"e":166.2},{"d":99.6,"e":156.7},{"d":99.98,"e":140.8},{"d":100.36,"e":124.8},{"d":100.74,"e":108.4},{"d":101.12,"e":98.5},{"d":101.5,"e":106.9},{"d":101.88,"e":109.6},{"d":102.26,"e":103.6},{"d":102.64,"e":92.9},{"d":103.02,"e":81.4},{"d":103.4,"e":75.7},{"d":103.78,"e":83.0},{"d":104.16,"e":88.7},{"d":104.54,"e":89.8},{"d":104.92,"e":86.4},{"d":105.3,"e":78.7},{"d":105.68,"e":74.7},{"d":106.06,"e":80.6},{"d":106.44,"e":86.5},{"d":106.82,"e":86.4},{"d":107.2,"e":80.4},{"d":107.58,"e":74.7},{"d":107.96,"e":70.6},{"d":108.34,"e":63.9},{"d":108.72,"e":56.0},{"d":109.1,"e":54.6},{"d":109.48,"e":56.7},{"d":109.86,"e":54.7},{"d":110.24,"e":52.7},{"d":110.62,"e":54.6},{"d":111.0,"e":56.5},{"d":111.38,"e":56.5},{"d":111.76,"e":53.5},{"d":112.14,"e":51.0},{"d":112.52,"e":47.7},{"d":112.9,"e":44.7},{"d":113.28,"e":47.0},{"d":113.66,"e":48.5}];
+const profile25 = [{"d":0.0,"e":51.0},{"d":0.37,"e":50.6},{"d":0.74,"e":49.9},{"d":1.11,"e":50.4},{"d":1.49,"e":54.5},{"d":1.86,"e":55.1},{"d":2.23,"e":58.7},{"d":2.6,"e":68.5},{"d":2.97,"e":80.1},{"d":3.34,"e":85.9},{"d":3.71,"e":91.8},{"d":4.08,"e":98.0},{"d":4.45,"e":102.7},{"d":4.83,"e":108.0},{"d":5.2,"e":111.7},{"d":5.57,"e":117.6},{"d":5.94,"e":110.5},{"d":6.31,"e":94.5},{"d":6.68,"e":78.9},{"d":7.05,"e":63.5},{"d":7.42,"e":51.6},{"d":7.79,"e":50.2},{"d":8.16,"e":58.4},{"d":8.54,"e":68.2},{"d":8.91,"e":81.2},{"d":9.28,"e":94.6},{"d":9.65,"e":105.7},{"d":10.02,"e":113.7},{"d":10.39,"e":110.9},{"d":10.76,"e":102.2},{"d":11.13,"e":99.0},{"d":11.5,"e":97.0},{"d":11.88,"e":89.5},{"d":12.25,"e":81.5},{"d":12.62,"e":77.0},{"d":12.99,"e":68.4},{"d":13.36,"e":58.4},{"d":13.73,"e":52.3},{"d":14.1,"e":62.6},{"d":14.47,"e":76.0},{"d":14.84,"e":83.4},{"d":15.21,"e":92.4},{"d":15.59,"e":104.6},{"d":15.96,"e":115.0},{"d":16.33,"e":121.4},{"d":16.7,"e":124.6},{"d":17.07,"e":123.0},{"d":17.44,"e":119.9},{"d":17.81,"e":117.3},{"d":18.18,"e":111.8},{"d":18.55,"e":104.0},{"d":18.93,"e":98.4},{"d":19.3,"e":97.7},{"d":19.67,"e":95.7},{"d":20.04,"e":91.7},{"d":20.41,"e":86.4},{"d":20.78,"e":83.7},{"d":21.15,"e":85.2},{"d":21.52,"e":85.0},{"d":21.89,"e":80.4},{"d":22.27,"e":71.4},{"d":22.64,"e":61.5},{"d":23.01,"e":52.0},{"d":23.38,"e":54.7},{"d":23.75,"e":68.5},{"d":24.12,"e":83.4},{"d":24.49,"e":99.4},{"d":24.86,"e":113.7},{"d":25.23,"e":121.2},{"d":25.61,"e":126.7},{"d":25.98,"e":141.5},{"d":26.35,"e":151.4},{"d":26.72,"e":154.3},{"d":27.09,"e":161.1},{"d":27.46,"e":174.3},{"d":27.83,"e":179.5},{"d":28.2,"e":175.4},{"d":28.57,"e":172.5},{"d":28.95,"e":167.8},{"d":29.32,"e":159.8},{"d":29.69,"e":143.4},{"d":30.06,"e":133.5},{"d":30.43,"e":124.4},{"d":30.8,"e":107.8},{"d":31.17,"e":98.7},{"d":31.54,"e":95.2},{"d":31.91,"e":91.2},{"d":32.29,"e":87.4},{"d":32.66,"e":82.3},{"d":33.03,"e":80.7},{"d":33.4,"e":85.7},{"d":33.77,"e":98.7},{"d":34.14,"e":117.6},{"d":34.51,"e":135.4},{"d":34.88,"e":150.6},{"d":35.25,"e":154.7},{"d":35.62,"e":156.4},{"d":36.0,"e":156.3},{"d":36.37,"e":162.4},{"d":36.74,"e":169.5},{"d":37.11,"e":166.5},{"d":37.48,"e":154.2},{"d":37.85,"e":141.7},{"d":38.22,"e":133.6},{"d":38.59,"e":119.0},{"d":38.96,"e":104.3},{"d":39.34,"e":94.7},{"d":39.71,"e":98.7},{"d":40.08,"e":113.5},{"d":40.45,"e":120.4},{"d":40.82,"e":127.8},{"d":41.19,"e":143.6},{"d":41.56,"e":156.7},{"d":41.93,"e":169.7},{"d":42.3,"e":184.7},{"d":42.68,"e":196.0},{"d":43.05,"e":204.0},{"d":43.42,"e":205.5},{"d":43.79,"e":201.0},{"d":44.16,"e":188.6},{"d":44.53,"e":174.1},{"d":44.9,"e":162.6},{"d":45.27,"e":154.3},{"d":45.64,"e":140.7},{"d":46.02,"e":126.0},{"d":46.39,"e":113.3},{"d":46.76,"e":108.6},{"d":47.13,"e":117.0},{"d":47.5,"e":127.4},{"d":47.87,"e":138.4},{"d":48.24,"e":154.6},{"d":48.61,"e":169.7},{"d":48.98,"e":174.2},{"d":49.36,"e":172.5},{"d":49.73,"e":169.3},{"d":50.1,"e":166.7},{"d":50.47,"e":169.3},{"d":50.84,"e":169.0},{"d":51.21,"e":165.3},{"d":51.58,"e":158.0},{"d":51.95,"e":154.1},{"d":52.32,"e":156.1},{"d":52.7,"e":166.1},{"d":53.07,"e":177.6},{"d":53.44,"e":190.0},{"d":53.81,"e":205.7},{"d":54.18,"e":222.3},{"d":54.55,"e":236.8},{"d":54.92,"e":243.5},{"d":55.29,"e":238.3},{"d":55.66,"e":231.4},{"d":56.04,"e":228.6},{"d":56.41,"e":230.7},{"d":56.78,"e":225.8},{"d":57.15,"e":210.4},{"d":57.52,"e":200.4},{"d":57.89,"e":195.4},{"d":58.26,"e":187.4},{"d":58.63,"e":174.3},{"d":59.0,"e":161.6},{"d":59.37,"e":146.2},{"d":59.75,"e":136.3},{"d":60.12,"e":133.7},{"d":60.49,"e":136.4},{"d":60.86,"e":140.5},{"d":61.23,"e":133.0},{"d":61.6,"e":140.3},{"d":61.97,"e":154.6},{"d":62.34,"e":160.4},{"d":62.71,"e":156.9},{"d":63.08,"e":146.7},{"d":63.46,"e":136.4},{"d":63.83,"e":131.4},{"d":64.2,"e":124.3},{"d":64.57,"e":113.3},{"d":64.94,"e":100.3},{"d":65.31,"e":86.1},{"d":65.68,"e":68.3},{"d":66.05,"e":58.7},{"d":66.42,"e":57.4},{"d":66.79,"e":68.7},{"d":67.17,"e":86.6},{"d":67.54,"e":98.5},{"d":67.91,"e":118.0},{"d":68.28,"e":133.5},{"d":68.65,"e":151.3},{"d":69.02,"e":166.4},{"d":69.39,"e":181.0},{"d":69.76,"e":192.0},{"d":70.13,"e":201.0},{"d":70.51,"e":205.6},{"d":70.88,"e":205.0},{"d":71.25,"e":206.2},{"d":71.62,"e":214.3},{"d":71.99,"e":222.3},{"d":72.36,"e":229.7},{"d":72.73,"e":234.4},{"d":73.1,"e":238.0},{"d":73.47,"e":240.7},{"d":73.84,"e":234.2},{"d":74.22,"e":222.5},{"d":74.59,"e":211.0},{"d":74.96,"e":196.7},{"d":75.33,"e":182.4},{"d":75.7,"e":174.0},{"d":76.07,"e":160.3},{"d":76.44,"e":146.1},{"d":76.81,"e":135.4},{"d":77.18,"e":121.7},{"d":77.55,"e":104.6},{"d":77.92,"e":89.0},{"d":78.3,"e":74.0},{"d":78.67,"e":71.4},{"d":79.04,"e":84.4},{"d":79.41,"e":104.7},{"d":79.78,"e":124.0},{"d":80.15,"e":141.0},{"d":80.52,"e":150.7},{"d":80.89,"e":151.4},{"d":81.26,"e":154.3},{"d":81.63,"e":159.1},{"d":82.0,"e":158.6},{"d":82.37,"e":157.3},{"d":82.75,"e":156.0},{"d":83.12,"e":156.0},{"d":83.49,"e":156.5},{"d":83.86,"e":160.0},{"d":84.23,"e":162.0},{"d":84.6,"e":160.4},{"d":84.97,"e":156.0},{"d":85.34,"e":151.4},{"d":85.71,"e":147.7},{"d":86.08,"e":146.1},{"d":86.45,"e":143.4},{"d":86.82,"e":133.4},{"d":87.19,"e":117.5},{"d":87.56,"e":101.5},{"d":87.94,"e":90.7},{"d":88.31,"e":83.7},{"d":88.68,"e":94.8},{"d":89.05,"e":114.6},{"d":89.42,"e":134.7},{"d":89.79,"e":156.0},{"d":90.16,"e":172.6},{"d":90.53,"e":171.7},{"d":90.9,"e":164.7},{"d":91.27,"e":162.7},{"d":91.64,"e":162.4},{"d":92.01,"e":162.0},{"d":92.39,"e":162.7},{"d":92.76,"e":167.1},{"d":93.13,"e":175.8},{"d":93.5,"e":181.0},{"d":93.87,"e":177.4},{"d":94.24,"e":169.0},{"d":94.61,"e":159.0},{"d":94.98,"e":145.0},{"d":95.35,"e":129.1},{"d":95.72,"e":113.4},{"d":96.09,"e":104.0},{"d":96.46,"e":108.2},{"d":96.83,"e":111.4},{"d":97.2,"e":105.0},{"d":97.58,"e":94.4},{"d":97.95,"e":83.3},{"d":98.32,"e":74.7},{"d":98.69,"e":83.7},{"d":99.06,"e":89.6},{"d":99.43,"e":87.7},{"d":99.8,"e":81.4},{"d":100.17,"e":76.0},{"d":100.54,"e":81.4},{"d":100.91,"e":86.5},{"d":101.28,"e":85.5},{"d":101.65,"e":76.7},{"d":102.03,"e":71.4},{"d":102.4,"e":67.3},{"d":102.77,"e":61.7},{"d":103.14,"e":54.4},{"d":103.51,"e":56.0},{"d":103.88,"e":58.5},{"d":104.25,"e":54.7},{"d":104.62,"e":55.0},{"d":104.99,"e":55.6},{"d":105.36,"e":54.3},{"d":105.73,"e":53.4},{"d":106.1,"e":50.7},{"d":106.47,"e":49.4},{"d":106.84,"e":50.2},{"d":107.22,"e":48.7},{"d":107.59,"e":48.7},{"d":107.96,"e":49.3},{"d":108.33,"e":50.4},{"d":108.7,"e":50.1},{"d":109.07,"e":50.0},{"d":109.44,"e":51.5},{"d":109.81,"e":51.5},{"d":110.18,"e":51.0},{"d":110.55,"e":52.7},{"d":110.92,"e":50.4}];
+
+const climbs = [
+  {n:'1', g:'4.1%', d:'1.6 km',  t24:8.4,  t25:8.7,  v24:476, v25:459, hr25:172, dt:'+0.3', dvam:'-17',  cls:'slower'},
+  {n:'2', g:'4.1%', d:'1.9 km',  t24:9.2,  t25:10.8, v24:497, v25:411, hr25:171, dt:'+1.6', dvam:'-86',  cls:'slower'},
+  {n:'3', g:'4.0%', d:'1.4 km',  t24:6.7,  t25:7.8,  v24:516, v25:450, hr25:171, dt:'+1.1', dvam:'-67',  cls:'slower'},
+  {n:'4', g:'5.3%', d:'1.2 km',  t24:7.6,  t25:7.5,  v24:514, v25:505, hr25:173, dt:'-0.0', dvam:'-10',  cls:'even'},
+  {n:'5', g:'4.7%', d:'2.9 km',  t24:22.6, t25:20.4, v24:359, v25:399, hr25:176, dt:'-2.2', dvam:'+40',  cls:'faster'},
+  {n:'6', g:'3.9%', d:'2.2 km',  t24:13.3, t25:12.7, v24:388, v25:411, hr25:169, dt:'-0.6', dvam:'+23',  cls:'faster'},
+  {n:'7', g:'3.0%', d:'2.5 km',  t24:13.1, t25:13.2, v24:344, v25:349, hr25:164, dt:'+0.0', dvam:'+5',   cls:'even'},
+  {n:'9', g:'3.1%', d:'2.3 km',  t24:11.7, t25:10.2, v24:366, v25:423, hr25:170, dt:'-1.6', dvam:'+58',  cls:'faster'},
+  {n:'10',g:'3.2%', d:'1.8 km',  t24:9.2,  t25:9.4,  v24:376, v25:373, hr25:167, dt:'+0.2', dvam:'-2',   cls:'even'}
+];
+
+const Y24 = '#6ba3d6', Y25 = '#e87a3f', INK_FAINT = '#7a7264', RULE = '#3a322a', INK = '#f4ead8', INK_DIM = '#b8ad99';
+
+Chart.defaults.color = INK_DIM;
+Chart.defaults.font.family = "'Inter Tight', sans-serif";
+Chart.defaults.font.size = 11;
+Chart.defaults.borderColor = RULE;
+
+const baseScale = {
+  grid: { color: 'rgba(116,108,96,0.12)', drawTicks: false },
+  ticks: { color: INK_FAINT, font: { size: 10, family: "'JetBrains Mono', monospace" } },
+  border: { color: RULE }
+};
+const tooltipStyle = {
+  backgroundColor: '#1a1612', borderColor: RULE, borderWidth: 1,
+  titleColor: INK, bodyColor: INK_DIM, padding: 10,
+  titleFont: { family: "'JetBrains Mono', monospace", size: 10 }
+};
+
+// Profile chart
+new Chart(document.getElementById('profile'), {
+  type: 'line',
+  data: {
+    datasets: [
+      { label: '2024', data: profile24.map(p => ({x: p.d, y: p.e})),
+        borderColor: Y24, backgroundColor: 'rgba(107,163,214,0.18)',
+        fill: true, pointRadius: 0, borderWidth: 1.5, tension: 0.3 },
+      { label: '2025', data: profile25.map(p => ({x: p.d, y: p.e})),
+        borderColor: Y25, backgroundColor: 'rgba(232,122,63,0.18)',
+        fill: true, pointRadius: 0, borderWidth: 1.5, tension: 0.3 }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    interaction: { mode: 'nearest', axis: 'x', intersect: false },
+    plugins: { legend: { display: false }, tooltip: tooltipStyle },
+    scales: {
+      x: { type: 'linear', ...baseScale, title: { display: true, text: 'Distance (km)', color: INK_FAINT, font: { size: 10 } } },
+      y: { ...baseScale, title: { display: true, text: 'Elevation (m)', color: INK_FAINT, font: { size: 10 } }, suggestedMin: 0, suggestedMax: 280 }
+    }
+  }
+});
+
+// Climb bar chart
+new Chart(document.getElementById('climbs'), {
+  type: 'bar',
+  data: {
+    labels: climbs.map(c => `Climb ${c.n}`),
+    datasets: [
+      { label: '2024', data: climbs.map(c => c.t24), backgroundColor: Y24, borderRadius: 2 },
+      { label: '2025', data: climbs.map(c => c.t25), backgroundColor: Y25, borderRadius: 2 }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        ...tooltipStyle,
+        callbacks: {
+          label: (ctx) => {
+            const c = climbs[ctx.dataIndex];
+            const isY24 = ctx.datasetIndex === 0;
+            return isY24
+              ? `2024: ${c.t24} min · VAM ${c.v24}`
+              : `2025: ${c.t25} min · VAM ${c.v25} · HR ${c.hr25}`;
+          },
+          afterLabel: (ctx) => {
+            if (ctx.datasetIndex === 1) {
+              const c = climbs[ctx.dataIndex];
+              return `${c.d} @ ${c.g}`;
+            }
+            return '';
+          }
+        }
+      }
+    },
+    scales: {
+      x: { ...baseScale, ticks: { ...baseScale.ticks, font: { size: 10, family: "'JetBrains Mono', monospace" } }, grid: { display: false } },
+      y: { ...baseScale, title: { display: true, text: 'Time (minutes)', color: INK_FAINT, font: { size: 10 } }, beginAtZero: true }
+    }
+  }
+});
+
+// Climb table
+const tbody = document.getElementById('climbtable');
+climbs.forEach(c => {
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td class="climb-id">${c.n}</td>
+    <td><span class="climb-spec">${c.d} <em>@ ${c.g}</em></span></td>
+    <td class="right">${c.t24} min<br><span style="font-size:10px;color:var(--ink-faint);font-family:'JetBrains Mono',monospace">VAM ${c.v24}</span></td>
+    <td class="right">${c.t25} min<br><span style="font-size:10px;color:var(--ink-faint);font-family:'JetBrains Mono',monospace">VAM ${c.v25}</span></td>
+    <td class="right delta ${c.cls}">${c.dt} min</td>
+    <td class="right delta ${c.cls}">${c.dvam}</td>
+  `;
+  tbody.appendChild(tr);
+});
+</script>
+
+</body>
+</html>
