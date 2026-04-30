@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Three Years on the Bike — A Cycling Story in Data</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400&family=JetBrains+Mono:wght@400;500&family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #1a1612;
+    --bg-elev: #221d18;
+    --bg-card: #2a241e;
+    --ink: #f4ead8;
+    --ink-dim: #b8ad99;
+    --ink-faint: #7a7264;
+    --accent: #e87a3f;
+    --accent-warm: #d4a574;
+    --green: #7fb069;
+    --pink: #d4537e;
+    --rule: #3a322a;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); color: var(--ink); }
+  body {
+    font-family: 'Inter Tight', system-ui, sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    font-feature-settings: 'ss01', 'cv11';
+    background-image:
+      radial-gradient(at 15% 0%, rgba(232,122,63,0.06) 0%, transparent 50%),
+      radial-gradient(at 85% 100%, rgba(212,165,116,0.04) 0%, transparent 50%);
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+
+  .grain {
+    position: fixed; inset: 0; pointer-events: none; opacity: 0.4; z-index: 100;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .wrap { max-width: 980px; margin: 0 auto; padding: 4rem 2rem 6rem; }
+
+  header.masthead {
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    padding: 1rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    margin-bottom: 5rem;
+  }
+  header.masthead .dot {
+    display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent); margin-right: 8px;
+    animation: pulse 2.5s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .hero {
+    margin-bottom: 6rem;
+    position: relative;
+  }
+  .hero .kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 2rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .hero .kicker::before {
+    content: ''; width: 32px; height: 1px; background: var(--accent);
+  }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin-bottom: 2rem;
+    font-variation-settings: 'opsz' 144;
+  }
+  .hero h1 em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent-warm);
+  }
+  .hero .lede {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: 1.4rem;
+    line-height: 1.5;
+    color: var(--ink-dim);
+    max-width: 38rem;
+    font-variation-settings: 'opsz' 36;
+  }
+
+  /* Headline stats grid */
+  .stats-banner {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 6rem;
+  }
+  .stat {
+    padding: 2rem 1.5rem;
+    border-right: 1px solid var(--rule);
+  }
+  .stat:last-child { border-right: none; }
+  .stat .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 0.75rem;
+  }
+  .stat .value {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: 2.5rem;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    color: var(--ink);
+    margin-bottom: 0.4rem;
+  }
+  .stat .unit {
+    font-family: 'Fraunces', serif;
+    font-size: 1rem;
+    color: var(--ink-faint);
+    font-style: italic;
+  }
+  .stat .sub {
+    font-size: 12px;
+    color: var(--ink-dim);
+    margin-top: 0.5rem;
+  }
+
+  /* Sections */
+  section { margin-bottom: 5rem; }
+
+  .section-head { margin-bottom: 2.5rem; }
+  .section-head .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+  .section-head h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: 2.4rem;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    max-width: 30rem;
+    font-variation-settings: 'opsz' 72;
+  }
+  .section-head h2 em {
+    font-style: italic;
+    color: var(--accent-warm);
+    font-weight: 300;
+  }
+
+  .prose {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: 1.15rem;
+    line-height: 1.65;
+    color: var(--ink-dim);
+    max-width: 38rem;
+    margin-bottom: 2.5rem;
+    font-variation-settings: 'opsz' 24;
+  }
+  .prose p + p { margin-top: 1rem; }
+  .prose strong {
+    color: var(--ink);
+    font-weight: 500;
+    font-style: normal;
+  }
+
+  /* Year cards */
+  .year-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    margin-bottom: 3rem;
+  }
+  .year-card {
+    background: var(--bg-elev);
+    padding: 1.75rem 1.5rem;
+    position: relative;
+  }
+  .year-card .yr {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--ink-faint);
+    margin-bottom: 1rem;
+  }
+  .year-card .km {
+    font-family: 'Fraunces', serif;
+    font-size: 1.9rem;
+    line-height: 1;
+    margin-bottom: 0.4rem;
+    letter-spacing: -0.02em;
+  }
+  .year-card .km em {
+    font-size: 0.8rem;
+    font-style: italic;
+    color: var(--ink-faint);
+  }
+  .year-card .meta {
+    font-size: 12px;
+    color: var(--ink-dim);
+    line-height: 1.5;
+  }
+  .year-card.peak::before {
+    content: 'Peak'; position: absolute; top: 1rem; right: 1rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--accent); background: rgba(232,122,63,0.1);
+    padding: 3px 8px; border-radius: 2px;
+  }
+
+  /* Chart container */
+  .chart-card {
+    background: var(--bg-elev);
+    border: 1px solid var(--rule);
+    padding: 2rem 1.75rem 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .chart-card .chart-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.1rem;
+    color: var(--ink);
+    margin-bottom: 0.4rem;
+  }
+  .chart-card .chart-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 1.5rem;
+  }
+  .chart-legend {
+    display: flex; flex-wrap: wrap; gap: 1.25rem;
+    font-size: 12px; color: var(--ink-dim);
+    margin-bottom: 1rem;
+  }
+  .chart-legend .item {
+    display: flex; align-items: center; gap: 8px;
+  }
+  .chart-legend .swatch {
+    width: 14px; height: 3px;
+  }
+  .chart-legend .swatch.dashed {
+    border-top: 2px dashed currentColor;
+    background: none; height: 0;
+  }
+  .chart-wrap { position: relative; width: 100%; height: 320px; }
+  .chart-wrap.tall { height: 360px; }
+  .chart-note {
+    font-size: 11px; color: var(--ink-faint); margin-top: 1rem;
+    font-style: italic; text-align: center;
+    font-family: 'Fraunces', serif;
+  }
+
+  /* Standout rides */
+  .ride-list {
+    border-top: 1px solid var(--rule);
+  }
+  .ride {
+    display: grid;
+    grid-template-columns: 100px 1fr auto;
+    gap: 1.5rem;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--rule);
+    align-items: baseline;
+  }
+  .ride .date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-faint);
+    letter-spacing: 0.05em;
+  }
+  .ride .desc {
+    font-family: 'Fraunces', serif;
+    font-size: 1.05rem;
+    color: var(--ink);
+    line-height: 1.4;
+  }
+  .ride .desc em {
+    color: var(--accent-warm);
+    font-style: italic;
+  }
+  .ride .stat-mini {
+    font-family: 'Fraunces', serif;
+    font-size: 1.4rem;
+    color: var(--accent-warm);
+    letter-spacing: -0.02em;
+    text-align: right;
+    white-space: nowrap;
+  }
+  .ride .stat-mini em {
+    font-size: 0.7em;
+    font-style: italic;
+    color: var(--ink-faint);
+  }
+
+  /* Verdict */
+  .verdict {
+    margin-top: 6rem;
+    padding: 3rem 2rem;
+    background: var(--bg-elev);
+    border-left: 3px solid var(--accent);
+    position: relative;
+  }
+  .verdict h3 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+  }
+  .verdict p {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: 1.3rem;
+    line-height: 1.55;
+    color: var(--ink);
+    font-variation-settings: 'opsz' 36;
+  }
+  .verdict p + p { margin-top: 1rem; }
+  .verdict em {
+    color: var(--accent-warm);
+    font-style: italic;
+  }
+
+  footer {
+    margin-top: 5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--rule);
+    display: flex; justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  @media (max-width: 720px) {
+    .wrap { padding: 2rem 1.25rem 4rem; }
+    .stats-banner { grid-template-columns: repeat(2, 1fr); }
+    .stat:nth-child(2) { border-right: none; }
+    .stat:nth-child(1), .stat:nth-child(2) { border-bottom: 1px solid var(--rule); }
+    .year-grid { grid-template-columns: repeat(2, 1fr); }
+    .ride { grid-template-columns: 1fr; gap: 0.4rem; }
+    .ride .stat-mini { text-align: left; }
+    .hero h1 { font-size: 3rem; }
+  }
+
+  /* Reveal animation */
+  .reveal { opacity: 0; transform: translateY(20px); animation: rise 0.8s ease forwards; }
+  @keyframes rise { to { opacity: 1; transform: translateY(0); } }
+  .d1 { animation-delay: 0.1s; }
+  .d2 { animation-delay: 0.25s; }
+  .d3 { animation-delay: 0.4s; }
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <span><span class="dot"></span>Annual Cycling Review</span>
+    <span>Jun 2023 — Apr 2026</span>
+  </header>
+
+  <div class="hero reveal d1">
+    <div class="kicker">A three-year ride</div>
+    <h1>Six thousand kilometres,<br>fifty-two thousand metres climbed,<br>and one <em>fitness curve</em>.</h1>
+    <p class="lede">A look at three years of riding — how the volume grew, when the legs got fast, and what the numbers say about the dip that came after the peak.</p>
+  </div>
+
+  <div class="stats-banner reveal d2">
+    <div class="stat">
+      <div class="label">Total rides</div>
+      <div class="value">213</div>
+      <div class="sub">Across 35 months</div>
+    </div>
+    <div class="stat">
+      <div class="label">Distance</div>
+      <div class="value">6,034<span class="unit"> km</span></div>
+      <div class="sub">≈ London → Cairo</div>
+    </div>
+    <div class="stat">
+      <div class="label">Time in saddle</div>
+      <div class="value">299<span class="unit"> hrs</span></div>
+      <div class="sub">12.5 full days</div>
+    </div>
+    <div class="stat">
+      <div class="label">Climbed</div>
+      <div class="value">52,393<span class="unit"> m</span></div>
+      <div class="sub">5.9× Everest</div>
+    </div>
+  </div>
+
+  <section class="reveal d3">
+    <div class="section-head">
+      <div class="num">01 / Volume</div>
+      <h2>Each year, <em>roughly triple</em> the kilometres of the last.</h2>
+    </div>
+    <div class="prose">
+      <p>The headline isn't ride count — it's ride length. Across all three years the number of rides per year stayed remarkably stable at around 66. What changed was the size of each ride.</p>
+      <p>In 2023 the average ride was <strong>13 km</strong>. By 2024 that had climbed to <strong>26 km</strong>. In 2025 it was <strong>44 km</strong>. The riding shifted from short spins into proper endurance work — and the elevation numbers shifted with it, from under 5,000 m of climbing in 2023 to nearly 30,000 m in 2025.</p>
+    </div>
+
+    <div class="year-grid">
+      <div class="year-card">
+        <div class="yr">2023 · Jun–Dec</div>
+        <div class="km">865<em> km</em></div>
+        <div class="meta">66 rides · 45 hrs<br>4,684 m climbed</div>
+      </div>
+      <div class="year-card">
+        <div class="yr">2024 · Full year</div>
+        <div class="km">1,829<em> km</em></div>
+        <div class="meta">69 rides · 88 hrs<br>14,405 m climbed</div>
+      </div>
+      <div class="year-card peak">
+        <div class="yr">2025 · Full year</div>
+        <div class="km">2,877<em> km</em></div>
+        <div class="meta">66 rides · 143 hrs<br>29,221 m climbed</div>
+      </div>
+      <div class="year-card">
+        <div class="yr">2026 · Jan–Apr</div>
+        <div class="km">464<em> km</em></div>
+        <div class="meta">12 rides · 24 hrs<br>4,083 m climbed</div>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">Monthly distance &amp; average ride length</div>
+      <div class="chart-sub">All rides, by month</div>
+      <div class="chart-legend">
+        <span class="item"><span class="swatch" style="background:#e87a3f"></span>Distance per month (km)</span>
+        <span class="item" style="color:#d4a574"><span class="swatch dashed"></span>Average ride length (km)</span>
+      </div>
+      <div class="chart-wrap"><canvas id="vol"></canvas></div>
+      <div class="chart-note">The dashed line tells the story: not just more, but longer.</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <div class="num">02 / Effort</div>
+      <h2>Speed and heart rate, month by month — and why the <em>raw numbers lie</em>.</h2>
+    </div>
+    <div class="prose">
+      <p>Average speed dipped over time. Average heart rate dropped too. Both of those things, in isolation, mean nothing — they're confounded by terrain. As the rides got hillier, raw speed naturally fell.</p>
+      <p>The interesting window is <strong>May to August 2025</strong>: average HR fell to 137–141 bpm while monthly volume was at all-time highs and the rides were genuinely mountainous. That's the aerobic-base signature — more work, less cardiac strain.</p>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">Monthly average speed &amp; heart rate</div>
+      <div class="chart-sub">Months with rides only</div>
+      <div class="chart-legend">
+        <span class="item"><span class="swatch" style="background:#7fb069"></span>Avg speed (km/h)</span>
+        <span class="item" style="color:#d4537e"><span class="swatch dashed"></span>Avg HR (bpm)</span>
+      </div>
+      <div class="chart-wrap"><canvas id="fit"></canvas></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <div class="num">03 / The long rides</div>
+      <h2>On 50 km+ efforts, terrain-adjusted, the curve <em>rises then falls</em>.</h2>
+    </div>
+    <div class="prose">
+      <p>To compare long rides fairly, each ride's speed and HR were measured against a regression on terrain difficulty (metres climbed per kilometre). The chart below shows the <strong>residuals</strong> — how much faster or slower than expected for the terrain.</p>
+      <p>Above zero on the green line means faster than the terrain predicts. Below zero on the pink line means lower HR than the terrain predicts. <strong>Both at once means fitter.</strong></p>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">Performance residuals on rides ≥ 50 km</div>
+      <div class="chart-sub">31 rides with valid HR &amp; elevation data</div>
+      <div class="chart-legend">
+        <span class="item"><span class="swatch" style="background:#7fb069"></span>Speed Δ vs terrain expectation (km/h)</span>
+        <span class="item" style="color:#d4537e"><span class="swatch dashed"></span>HR Δ vs terrain expectation (bpm)</span>
+      </div>
+      <div class="chart-wrap tall"><canvas id="resid"></canvas></div>
+      <div class="chart-note">Hover to see ride distance and gradient.</div>
+    </div>
+
+    <div class="prose">
+      <p>From late 2024 through summer 2025 the speed line sits above zero and the HR line is mostly at or below zero — fitness was building. The standout efforts were genuinely fast for what they were:</p>
+    </div>
+
+    <div class="ride-list">
+      <div class="ride">
+        <div class="date">08 Mar 2025</div>
+        <div class="desc">A <em>128 km day</em> at +1.6 km/h above terrain expectation — the breakthrough long ride.</div>
+        <div class="stat-mini">22.7<em> km/h</em></div>
+      </div>
+      <div class="ride">
+        <div class="date">30 Aug 2025</div>
+        <div class="desc">53 km at <em>+4.3 km/h</em> faster than expected. The fastest residual in the entire dataset.</div>
+        <div class="stat-mini">26.0<em> km/h</em></div>
+      </div>
+      <div class="ride">
+        <div class="date">20 Sep 2025</div>
+        <div class="desc">The longest ride of the three years — <em>162 km</em>, with 1,463 m of climbing, still 0.8 km/h faster than expected.</div>
+        <div class="stat-mini">161.6<em> km</em></div>
+      </div>
+      <div class="ride">
+        <div class="date">25 Oct 2025</div>
+        <div class="desc">111 km with <em>1,757 m</em> of climbing — biggest climbing day on record.</div>
+        <div class="stat-mini">1,757<em> m</em></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <div class="num">04 / The dip</div>
+      <h2>Late 2025 onwards — fewer rides, slower paces, <em>higher heart rates</em>.</h2>
+    </div>
+    <div class="prose">
+      <p>From November 2025 the residuals turn negative on both axes. The most telling ride is <strong>21 February 2026</strong>: speed −1.6 km/h, HR +12 bpm, on a relatively gentle 56 km route. Slower at higher heart rate is the textbook detraining signature.</p>
+      <p>The good news is in the last data point. <strong>26 April 2026</strong>: speed +1.2 km/h, HR −6 bpm. One ride doesn't make a trend, but it's the right shape.</p>
+    </div>
+  </section>
+
+  <div class="verdict">
+    <h3>The verdict</h3>
+    <p>Three years of consistent volume growth, with a clear <em>peak between March and September 2025</em> when the rides got long, hilly, and fast all at once.</p>
+    <p>The slowdown that followed shows in every metric — frequency, distance, and effort-adjusted pace. Whatever caused it, the data says it was real, not just a bad month.</p>
+    <p>And the most recent ride looks like the start of a return.</p>
+  </div>
+
+  <footer>
+    <span>Generated from Strava export</span>
+    <span>213 rides · 6,034 km</span>
+  </footer>
+
+</div>
+
+<script>
+// ============ DATA ============
+const monthLabels = ["2023-06","2023-07","2023-08","2023-09","2023-10","2023-11","2023-12","2024-01","2024-02","2024-03","2024-04","2024-05","2024-06","2024-07","2024-08","2024-09","2024-10","2024-11","2024-12","2025-01","2025-02","2025-03","2025-04","2025-05","2025-06","2025-07","2025-08","2025-09","2025-10","2025-11","2025-12","2026-01","2026-02","2026-03","2026-04"];
+const monthKm = [151.1,263.9,110.4,131.3,176.7,0,31.3,50.5,0,134.2,69.2,146.1,244.8,106.2,175.2,320.5,306.6,226.9,48.2,125.3,282,479.3,26.8,401.1,330.8,124.9,469.5,296.7,188.4,108.6,43.8,48.4,118.9,52.4,243.8];
+const monthAvgDist = [8.9,14.7,13.8,9.4,25.2,null,15.6,16.8,null,12.2,17.3,20.9,16.3,21.2,25,40.1,76.7,56.7,48.2,31.3,31.3,47.9,26.8,66.9,30.1,25,42.7,98.9,94.2,54.3,21.9,48.4,39.6,17.5,48.8];
+const monthAvgSpeed = [14.5,21.7,19.6,17.7,22.2,null,31.1,24.3,null,21.3,22.7,21.7,21,21,24.1,20.9,19.8,22,20.5,20.3,22.8,21.7,19.3,21.1,20.1,19,18.9,20.8,19.4,18.1,19.4,17.8,18.5,17.9,20.6];
+const monthAvgHr = [null,null,null,null,155.7,null,151,147.3,null,149.5,148.8,148.7,149.1,150.8,153.7,145.4,147.8,150,158,168,154,139.1,139,152.8,140.9,131,136.6,148.3,157,150.5,152.5,154,154.7,137.7,152.2];
+
+const longRides = [
+{date:'2023-10-15',sr:0.328,hr:10.67,dist:59.4,mpk:6.5},
+{date:'2024-09-07',sr:0.121,hr:7.7,dist:73.8,mpk:9.7},
+{date:'2024-09-14',sr:0.46,hr:8.97,dist:65.5,mpk:14.2},
+{date:'2024-09-21',sr:-0.55,hr:-2.30,dist:93.4,mpk:6.7},
+{date:'2024-10-05',sr:-1.13,hr:-2.13,dist:84.5,mpk:7.7},
+{date:'2024-10-19',sr:-0.36,hr:-4.03,dist:77.3,mpk:8.3},
+{date:'2024-10-27',sr:-0.81,hr:-22.13,dist:113.5,mpk:13.8},
+{date:'2024-11-02',sr:-1.36,hr:-5.91,dist:83.3,mpk:9.0},
+{date:'2024-11-17',sr:-0.72,hr:-6.85,dist:51.4,mpk:11.4},
+{date:'2025-02-01',sr:-0.06,hr:5.10,dist:65.2,mpk:9.2},
+{date:'2025-02-23',sr:0.07,hr:1.67,dist:67.6,mpk:8.5},
+{date:'2025-03-01',sr:0.36,hr:7.41,dist:79.4,mpk:10.9},
+{date:'2025-03-08',sr:1.59,hr:1.88,dist:127.8,mpk:8.6},
+{date:'2025-03-15',sr:1.31,hr:4.79,dist:70.6,mpk:13.1},
+{date:'2025-03-23',sr:0.43,hr:-5.61,dist:55.8,mpk:10.6},
+{date:'2025-03-29',sr:0.85,hr:1.39,dist:103.4,mpk:16.5},
+{date:'2025-05-04',sr:1.27,hr:7.07,dist:65.8,mpk:8.8},
+{date:'2025-05-10',sr:0.46,hr:3.94,dist:121.8,mpk:14.0},
+{date:'2025-05-17',sr:-0.27,hr:-1.78,dist:100.2,mpk:9.9},
+{date:'2025-08-03',sr:-3.27,hr:-10.87,dist:124.5,mpk:9.2},
+{date:'2025-08-17',sr:0.65,hr:-7.71,dist:75.2,mpk:10.2},
+{date:'2025-08-25',sr:0.51,hr:-0.32,dist:58.1,mpk:9.7},
+{date:'2025-08-30',sr:4.30,hr:-0.83,dist:52.9,mpk:6.8},
+{date:'2025-09-06',sr:-1.26,hr:-6.18,dist:87.5,mpk:7.6},
+{date:'2025-09-20',sr:0.78,hr:-3.93,dist:161.6,mpk:9.1},
+{date:'2025-10-11',sr:-0.07,hr:-1.78,dist:77.6,mpk:9.9},
+{date:'2025-10-25',sr:0.29,hr:7.27,dist:110.8,mpk:15.9},
+{date:'2025-11-30',sr:-2.21,hr:0.34,dist:78.3,mpk:10.6},
+{date:'2026-02-21',sr:-1.57,hr:11.89,dist:56.4,mpk:7.8},
+{date:'2026-04-19',sr:-1.69,hr:0.02,dist:74.8,mpk:9.6},
+{date:'2026-04-26',sr:1.20,hr:-6.18,dist:68.3,mpk:6.5}
+];
+
+// ============ CHART CONFIG ============
+const INK = '#f4ead8';
+const INK_DIM = '#b8ad99';
+const INK_FAINT = '#7a7264';
+const RULE = '#3a322a';
+const ORANGE = '#e87a3f';
+const WARM = '#d4a574';
+const GREEN = '#7fb069';
+const PINK = '#d4537e';
+
+Chart.defaults.color = INK_DIM;
+Chart.defaults.font.family = "'Inter Tight', sans-serif";
+Chart.defaults.font.size = 11;
+Chart.defaults.borderColor = RULE;
+
+const baseScaleOpts = {
+  grid: { color: 'rgba(116,108,96,0.12)', drawTicks: false },
+  ticks: { color: INK_FAINT, font: { size: 10, family: "'JetBrains Mono', monospace" } },
+  border: { color: RULE }
+};
+
+// Chart 1: Volume
+new Chart(document.getElementById('vol'), {
+  data: {
+    labels: monthLabels,
+    datasets: [
+      { type: 'bar', label: 'Distance', data: monthKm,
+        backgroundColor: ORANGE, borderRadius: 1, yAxisID: 'y' },
+      { type: 'line', label: 'Avg ride length', data: monthAvgDist,
+        borderColor: WARM, backgroundColor: WARM, borderDash: [5,4], borderWidth: 2,
+        pointRadius: 2, pointBackgroundColor: WARM, yAxisID: 'y1', spanGaps: true, tension: 0.25 }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    interaction: { mode: 'index', intersect: false },
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: '#1a1612', borderColor: RULE, borderWidth: 1,
+        titleColor: INK, bodyColor: INK_DIM, padding: 10,
+        titleFont: { family: "'JetBrains Mono', monospace", size: 10 }
+      }
+    },
+    scales: {
+      x: { ...baseScaleOpts, ticks: { ...baseScaleOpts.ticks, autoSkip: true, maxRotation: 45, minRotation: 45 }, grid: { display: false } },
+      y: { ...baseScaleOpts, position: 'left', title: { display: true, text: 'km / month', color: INK_FAINT, font: { size: 10 } }, beginAtZero: true },
+      y1: { ...baseScaleOpts, position: 'right', title: { display: true, text: 'avg ride km', color: INK_FAINT, font: { size: 10 } }, beginAtZero: true, grid: { display: false } }
+    }
+  }
+});
+
+// Chart 2: Fitness signal
+new Chart(document.getElementById('fit'), {
+  type: 'line',
+  data: {
+    labels: monthLabels,
+    datasets: [
+      { label: 'Avg speed', data: monthAvgSpeed,
+        borderColor: GREEN, backgroundColor: GREEN, pointRadius: 2,
+        borderWidth: 2, yAxisID: 'y', spanGaps: true, tension: 0.3 },
+      { label: 'Avg HR', data: monthAvgHr,
+        borderColor: PINK, backgroundColor: PINK, borderDash: [4,4],
+        pointRadius: 2, borderWidth: 2, yAxisID: 'y1', spanGaps: true, tension: 0.3 }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    interaction: { mode: 'index', intersect: false },
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: '#1a1612', borderColor: RULE, borderWidth: 1,
+        titleColor: INK, bodyColor: INK_DIM, padding: 10,
+        titleFont: { family: "'JetBrains Mono', monospace", size: 10 }
+      }
+    },
+    scales: {
+      x: { ...baseScaleOpts, ticks: { ...baseScaleOpts.ticks, autoSkip: true, maxRotation: 45, minRotation: 45 }, grid: { display: false } },
+      y: { ...baseScaleOpts, position: 'left', title: { display: true, text: 'km/h', color: INK_FAINT, font: { size: 10 } }, suggestedMin: 15, suggestedMax: 32 },
+      y1: { ...baseScaleOpts, position: 'right', title: { display: true, text: 'bpm', color: INK_FAINT, font: { size: 10 } }, suggestedMin: 120, suggestedMax: 175, grid: { display: false } }
+    }
+  }
+});
+
+// Chart 3: Residuals
+new Chart(document.getElementById('resid'), {
+  data: {
+    labels: longRides.map(r => r.date),
+    datasets: [
+      { type: 'line', label: 'Speed Δ', data: longRides.map(r => r.sr),
+        borderColor: GREEN, backgroundColor: GREEN, pointRadius: 4,
+        pointHoverRadius: 6, borderWidth: 2, yAxisID: 'y', tension: 0.25 },
+      { type: 'line', label: 'HR Δ', data: longRides.map(r => r.hr),
+        borderColor: PINK, backgroundColor: PINK, borderDash: [4,4],
+        pointRadius: 4, pointHoverRadius: 6, borderWidth: 2, yAxisID: 'y1', tension: 0.25 }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    interaction: { mode: 'index', intersect: false },
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: '#1a1612', borderColor: RULE, borderWidth: 1,
+        titleColor: INK, bodyColor: INK_DIM, padding: 10,
+        titleFont: { family: "'JetBrains Mono', monospace", size: 10 },
+        callbacks: {
+          afterBody: (items) => {
+            const r = longRides[items[0].dataIndex];
+            return `${r.dist} km · ${r.mpk} m/km`;
+          }
+        }
+      }
+    },
+    scales: {
+      x: { ...baseScaleOpts, ticks: { ...baseScaleOpts.ticks, autoSkip: true, maxRotation: 45, minRotation: 45 }, grid: { display: false } },
+      y: { ...baseScaleOpts, position: 'left',
+           title: { display: true, text: 'Speed Δ (km/h)', color: INK_FAINT, font: { size: 10 } },
+           suggestedMin: -4, suggestedMax: 4.5,
+           grid: { color: (ctx) => ctx.tick.value === 0 ? 'rgba(244,234,216,0.25)' : 'rgba(116,108,96,0.1)' } },
+      y1: { ...baseScaleOpts, position: 'right',
+            title: { display: true, text: 'HR Δ (bpm)', color: INK_FAINT, font: { size: 10 } },
+            suggestedMin: -25, suggestedMax: 15, grid: { display: false } }
+    }
+  }
+});
+</script>
+
+</body>
+</html>
